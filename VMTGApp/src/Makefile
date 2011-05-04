@@ -8,6 +8,7 @@ include $(TOP)/configure/CONFIG
 #=============================
 # build an ioc application
 
+LIBRARY_IOC = VMTGSup
 PROD_IOC = VMTG
 
 DBD += VMTG.dbd
@@ -19,13 +20,10 @@ VMTG_DBD += base.dbd
 # <name>_registerRecordDeviceDriver.cpp will be created from <name>.dbd
 VMTG_SRCS += VMTG_registerRecordDeviceDriver.cpp
 VMTG_SRCS_DEFAULT += VMTGMain.cpp
-VMTG_SRCS_vxWorks += -nil-
-
-#The following adds support from base/src/vxWorks
-VMTG_OBJS_vxWorks += $(EPICS_BASE_BIN)/vxComLibrary
+VMTG_SRCS_RTEMS   += -nil-
 
 #add a definition for each support application used by this application
-#VMTG_LIBS += xxx
+VMTG_LIBS += VMTGSup
 
 #NOTES:
 #      1)It is not possible to build sncExample both as a component of VMTG
@@ -33,17 +31,10 @@ VMTG_OBJS_vxWorks += $(EPICS_BASE_BIN)/vxComLibrary
 #      2)To build sncExample SNCSEQ must be defined in <top>/configure/RELEASE
 
 #The following builds sncExample as a component of VMTG
-#VMTG_SRCS += sncExample.stt
-#VMTG_LIBS += seq pv
+VMTGSup_SRCS   += vme64x.c
+SRC_DIRS       += ../vme64xSup
 
 VMTG_LIBS += $(EPICS_BASE_IOC_LIBS)
-
-#The following builds sncExample as a standalone application
-#PROD_HOST += sncExample
-#sncExample_SNCFLAGS += +m
-#sncExample_SRCS += sncExample.stt
-#sncExample_LIBS += seq pv
-#sncExample_LIBS += $(EPICS_BASE_HOST_LIBS)
 
 #===========================
 
