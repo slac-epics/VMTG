@@ -8,14 +8,14 @@ include $(TOP)/configure/CONFIG
 #=============================
 # build an ioc application
 
-LIBRARY_IOC = VMTGSup
-PROD_IOC = VMTG
+LIBRARY_IOC_RTEMS = VMTGSup
+PROD_IOC_RTEMS = VMTG
 
 DBD += VMTG.dbd
+DBD += VMTGSup.dbd
 # VMTG.dbd will be made up from these files:
 VMTG_DBD += base.dbd
-#include definitions for any other support applications needed
-#VMTG_DBD += xxx.dbd
+VMTG_DBD += VMTGSup.dbd
 
 # <name>_registerRecordDeviceDriver.cpp will be created from <name>.dbd
 VMTG_SRCS += VMTG_registerRecordDeviceDriver.cpp
@@ -32,6 +32,7 @@ VMTG_LIBS += VMTGSup
 
 #The following builds sncExample as a component of VMTG
 VMTGSup_SRCS   += vme64x.c
+VMTGSup_SRCS   += drvVMTG.c
 SRC_DIRS       += ../vme64xSup
 
 VMTG_LIBS += $(EPICS_BASE_IOC_LIBS)
