@@ -1,8 +1,9 @@
-/* $Id$ */
+/* $Id: drvVMTG.c,v 1.1 2011/05/05 16:47:11 strauman Exp $ */
 
 /* VMTG driver */
 
 #include <epicsExport.h>
+#include <epicsInterrupt.h>
 #include <devLib.h>
 #include <vme64x.h>
 #include <drvSup.h>
@@ -15,15 +16,46 @@
 
 #define  VMTG_FUN       0 /* VMTG is function 0 */
 
+uint16_t   vmtgLfsr = 0xace1;
+
 unsigned   vmtgVect = 0;
 int        vmtgSlot = 0;
 VME64_Addr vmtgCSRB = (VME64_Addr)0;
 VME64_Addr vmtgBase = (VME64_Addr)0;
 
+static uint16_t
+vmtgRnd()
+{
+/* Primitive Galois LFSR (Wikipedia, 2011) */
+uint16_t rval;
+int      key;
+	key = epicsInterruptLock();
+		rval = vmtgLfsr = (vmtgLfsr>>1) ^ ( (- (vmtgLfsr&1)) & 0xb400);
+	epicsInterruptUnlock( key );
+	return rval;
+}
+
+long
+vmtgInstallISR(void (*isr)(void* parm), void *parm)
+{
+int      i;
+unsigned v;
+long     rval;
+
+	i = 0;
+	do {
+		v    = vmtgRnd() & 0xff;
+		rval = devConnectInterruptVME( v, isr, parm );
+	} while ( S_dev_vectorInUse == rval && i++ < 10 );
+	
+	return rval;
+}
+
+
 static long
 vmtgReport(int interest_level)
 {
-	epicsPrintf("VMTG Driver, Release $Name:$\n");
+	epicsPrintf("VMTG Driver, Release $Name:  $\n");
 	if ( vmtgSlot < 1 ) {
 		epicsPrintf("No VMTG card detected\n");
 	} else {
@@ -68,6 +100,7 @@ int       lsb;
 		epicsPrintf("vmtgInit FAILED: Unable to map %u bytes of VME A24 space\n", (1<<lsb));
 		goto bail;
 	}
+printf("LSB: %u, base: 0x%p\n", lsb, vme_24_base);
 
 	vmtgBase = (VME64_Addr)vme_24_base;
 
@@ -86,9 +119,23 @@ int       lsb;
 	vme64_out08( vmtgCSRB, VME64_CSR_OFF_BCLR, VME64_CSR_BIT_MODENBL );
 
 	/* Program ADER                 */
-	vme64SetupADER( vmtgCSRB, VMTG_FUN, (uint32_t)vme_24_bus, VME_AM_STD_SUP_DATA );
+	if ( vme64SetupADER( vmtgCSRB, VMTG_FUN, (uint32_t)vme_24_bus, VME_AM_STD_SUP_DATA ) ) {
+		epicsPrintf("vmtgInit FAILED: Unable to program address decoders for function 0\n");
+		goto bail;
+	}
+
+	if ( 0 == devBusMappedRegister( "VMTG0", vmtgBase ) ) {
+		epicsPrintf("vmtgInit FAILED: Unable to register base address with devBusMapped\n");
+		goto bail;
+	}
+
+	vme64_out08( vmtgCSRB, VME64_CSR_OFF_BSET, VME64_CSR_BIT_MODENBL );
 	
 	rval     = 0;
+
+#warning "Remove this test"
+	*(volatile uint16_t*)vmtgBase = 2;
+
 
 bail:
 

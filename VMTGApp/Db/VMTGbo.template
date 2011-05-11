@@ -1,0 +1,9 @@
+record(bo, "$(prefix):$(field)")
+{
+	field(DESC, "$(desc)")
+	field(DTYP, "BusAddress")
+	field(OUT,  "#C0S0@VMTG0+$(off),be16")
+	field(ZNAM, "$(znam)")
+	field(ONAM, "$(onam)")
+	field(MASK, "$(mask)")
+}

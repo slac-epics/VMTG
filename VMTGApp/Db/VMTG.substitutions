@@ -1,0 +1,4 @@
+file "VMTGbo.template" {
+  pattern { field        , off    , mask    , znam          , onam              , desc                }
+	      { "CSR0_MDE"   , "0x00" , "0x0002", "Normal"      ,"Diagnostic"       , "VMTG Mode Control" }
+}

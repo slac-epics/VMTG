@@ -16,6 +16,7 @@ DBD += VMTGSup.dbd
 # VMTG.dbd will be made up from these files:
 VMTG_DBD += base.dbd
 VMTG_DBD += VMTGSup.dbd
+VMTG_DBD += devBusMapped.dbd
 
 # <name>_registerRecordDeviceDriver.cpp will be created from <name>.dbd
 VMTG_SRCS += VMTG_registerRecordDeviceDriver.cpp
@@ -35,7 +36,7 @@ VMTGSup_SRCS   += vme64x.c
 VMTGSup_SRCS   += drvVMTG.c
 SRC_DIRS       += ../vme64xSup
 
-VMTG_LIBS += $(EPICS_BASE_IOC_LIBS)
+VMTG_LIBS += devBusMapped $(EPICS_BASE_IOC_LIBS)
 
 #===========================
 
