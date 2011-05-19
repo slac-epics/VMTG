@@ -6,4 +6,5 @@ record(bo, "$(prefix):$(field)")
 	field(ZNAM, "$(znam)")
 	field(ONAM, "$(onam)")
 	field(MASK, "$(mask)")
+	field(HIGH, "$(high)")
 }

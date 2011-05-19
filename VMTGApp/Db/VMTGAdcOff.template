@@ -1,0 +1,51 @@
+record(calc, "$(prefix):ADC_OFFSET") {
+	field(DESC, "ADC Offset (negative)")
+	field(EGU,  "V")
+	field(INPA, "$(prefix):ADC_CH7 NPP MS")
+	field(CALC, "-A")
+	field(FLNK, "$(prefix):ADC_OFF_FO1")
+}
+
+record(dfanout, "$(prefix):ADC_OFF_FO1") {
+	field(DESC, "ADC Offset Fanout 1")
+	field(OMSL, "closed_loop")
+	field(EGU,  "V")
+	field(DOL,  "$(prefix):ADC_OFFSET")
+	field(OUTA, "$(prefix):ADC_CH0.AOFF NPP MS")
+	field(OUTB, "$(prefix):ADC_CH1.AOFF NPP MS")
+	field(OUTC, "$(prefix):ADC_CH2.AOFF NPP MS")
+	field(OUTD, "$(prefix):ADC_CH3.AOFF NPP MS")
+	field(OUTE, "$(prefix):ADC_CH4.AOFF NPP MS")
+	field(OUTF, "$(prefix):ADC_CH5.AOFF NPP MS")
+	field(OUTG, "$(prefix):ADC_CH6.AOFF NPP MS")
+	field(FLNK, "$(prefix):ADC_OFF_FO2")
+}
+
+record(dfanout, "$(prefix):ADC_OFF_FO2") {
+	field(DESC, "ADC Offset Fanout 2")
+	field(OMSL, "closed_loop")
+	field(EGU,  "V")
+	field(DOL,  "$(prefix):ADC_OFFSET")
+	field(OUTA, "$(prefix):ADC_CH0_LO.AOFF NPP MS")
+	field(OUTB, "$(prefix):ADC_CH1_LO.AOFF NPP MS")
+	field(OUTC, "$(prefix):ADC_CH2_LO.AOFF NPP MS")
+	field(OUTD, "$(prefix):ADC_CH3_LO.AOFF NPP MS")
+	field(OUTE, "$(prefix):ADC_CH4_LO.AOFF NPP MS")
+	field(OUTF, "$(prefix):ADC_CH5_LO.AOFF NPP MS")
+	field(OUTG, "$(prefix):ADC_CH6_LO.AOFF NPP MS")
+	field(FLNK, "$(prefix):ADC_OFF_FO3")
+}
+
+record(dfanout, "$(prefix):ADC_OFF_FO3") {
+	field(DESC, "ADC Offset Fanout 3")
+	field(OMSL, "closed_loop")
+	field(EGU,  "V")
+	field(DOL,  "$(prefix):ADC_OFFSET")
+	field(OUTA, "$(prefix):ADC_CH0_HI.AOFF NPP MS")
+	field(OUTB, "$(prefix):ADC_CH1_HI.AOFF NPP MS")
+	field(OUTC, "$(prefix):ADC_CH2_HI.AOFF NPP MS")
+	field(OUTD, "$(prefix):ADC_CH3_HI.AOFF NPP MS")
+	field(OUTE, "$(prefix):ADC_CH4_HI.AOFF NPP MS")
+	field(OUTF, "$(prefix):ADC_CH5_HI.AOFF NPP MS")
+	field(OUTG, "$(prefix):ADC_CH6_HI.AOFF NPP MS")
+}

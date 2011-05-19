@@ -1,4 +1,129 @@
-file "VMTGbo.template" {
-  pattern { field        , off    , mask    , znam          , onam              , desc                }
-	      { "CSR0_MDE"   , "0x00" , "0x0002", "Normal"      ,"Diagnostic"       , "VMTG Mode Control" }
+file VMTGbo.template {
+  pattern { field        , off    , mask    , znam          , onam              , high, desc                }
+	      { "CSR0_MDE"   , "0x00" , "0x0002", "Normal"      ,"Diagnostic"       , "0" , "VMTG Mode Control" }
+	      { "CSR0_ARM"   , "0x00" , "0x0004", "Disarmed"    ,"Armed"            , "0" , "VMTG Arm"          }
+	      { "CSR0_ENA"   , "0x00" , "0x0008", "Disabled"    ,"Enabled"          , "0" , "VMTG Enable"       }
+	      { "CSR0_SGE"   , "0x00" , "0x0040", "Falling"     ,"Raising"          , "0" , "Seq Gen Edge Sel"  }
+	      { "CSR0_ETE"   , "0x00" , "0x0080", "Falling"     ,"Raising"          , "0" , "Ext Trg Edge Sel"  }
+	      { "CSR0_PLL"   , "0x00" , "0x0100", "VCO_OFF"     ,"VCO_ON"           , "0" , "PLL VCO Enable"    }
+	      { "CSR0_PLR"   , "0x00" , "0x0200", "Running"     ,"Reset"            , "1" , "PLL Presc Reset"   }
+	      { "CSR0_TSE"   , "0x00" , "0x0400", "Disabled"    ,"Enabled"          , "0" , "TS0 Detect Enbl"   }
+	      { "CSR0_TSG"   , "0x00" , "0x0800", "Falling"     ,"Raising"          , "0" , "TS0 Edge Sel"      }
+	      { "CSR0_IRE"   , "0x00" , "0x1000", "Disabled"    ,"Enabled"          , "0" , "360Hz Igen Enbl"   }
+	      { "CSR0_IRG"   , "0x00" , "0x2000", "Falling"     ,"Raising"          , "0" , "360Hz Igen Edge"   }
+	      { "CSR0_TSR"   , "0x00" , "0x4000", "Running"     ,"Resync"           , "1" , "TS Ctr Resync"     }
+	      { "CSR0_TSM"   , "0x00" , "0x8000", "Auto"        ,"Manual"           , "0" , "TS Ctr Resync Mode"}
+
+	      { "CSR1_AEN"   , "0x02" , "0x0001", "Disabled"    ,"Enabled"          , "0" , "ADC Subsys Enbl"   }
+	      { "CSR1_ADG"   , "0x02" , "0x0002", "Idle"        ,"Trigger"          , "1" , "ADC SW Trigger"    }
+
+		
+	      { "CSR2_MTG_IO", "0x04" , "0x4000", "Disabled"    ,"Enabled"          , "0" , "MTG I/O Signal"    }
+	      { "CSR2_MTG_TE", "0x04" , "0x8000", "Disabled"    ,"Enabled"          , "0" , "MTG TrigInp Enbl"  }
+}
+
+#file VMTGmbbo.template {
+#  pattern { field        , off    , shft    , nobt , zrst            , onst            , twst            , thst            , frst            , fvst            , sxst            , svst            , desc              }
+#          { "CSR0_MT_S"  , "0x00" , "4"     , "2"  , "Seq_Genr"      , "PLL_Trig"      , "Aux_Trig"      , "Agnd"          , ""              , ""              , ""              , ""              , "Master Trig Src" }
+#
+#          { "CSR1_ADM"   , "0x02" , "2"     , "2"  , "Continuous"    , "Mono_All_Chan" , "Mono_Sel_Chan" , ""              , ""              , ""              , ""              , ""              , "ADC Opmode"      }
+#
+#		
+#          { "CSR2_IMOD"  , "0x04" , "12"    , "2"  , "Level"         , "Latch Raising" , "Latch Falling" , "Latch Both"    , ""              , ""              , ""              , ""              , "GPIO Inp Mode"   }
+#}
+
+file VMTGStatusBit.template {
+  pattern { field        , off    , mask    , znam          , onam              , high , desc                }
+	      { "CSR2_MTM"   , "0x04" , "0x0001", "Normal"      ,"Dropped"          , "0"  , "MTG Trig Miss"     }
+	      { "CSR2_IQM"   , "0x04" , "0x0002", "Normal"      ,"Dropped"          , "0"  , "IQM Trig Miss"     }
+	      { "CSR2_TSM"   , "0x04" , "0x0004", "Normal"      ,"Dropped"          , "0"  , "TSM Trig Miss"     }
+	      { "CSR2_GTO"   , "0x04" , "0x0008", "Gate OK"     ,"Gate BAD"         , "0"  , "MTG Gate Stat"     }
+	      { "CSR2_C8O"   , "0x04" , "0x0010", "Missing"     ,"Normal"           , "0"  , "8.5MHz Clk Stat"   }
+	      { "CSR2_ETR"   , "0x04" , "0x0020", "NO MstrTrig" ,"OK MstrTrig"      , "0"  , "Master Trig Miss"  }
+	      { "CSR2_FTR"   , "0x04" , "0x0040", "Normal"      ,"Generated"        , "0"  , "Failsafe Trig"     }
+	      { "CSR2_RFO"   , "0x04" , "0x0080", "Missing"     ,"Normal"           , "0"  , "476Mhz Input Stat" }
+# DCL, DPO, DNS are non-latching - leave bit-clear records there but they have no effect
+	      { "CSR2_DCL"   , "0x04" , "0x0100", "Not Locked"  ,"Locked"           , "0"  , "DCM Lock Stat"     }
+	      { "CSR2_DPO"   , "0x04" , "0x0200", "Normal"      ,"Limit Reached"    , "0"  , "DCM PShft Stat"    }
+	      { "CSR2_DNS"   , "0x04" , "0x0400", "Missing"     ,"Normal"           , "0"  , "DCM Stat"          }
+}
+
+file VMTGli.template {
+  pattern { field        , off    , io         ,desc                }
+          { "INT_VEC"    , "0x06" , "be16"     ,"Interrupt Vector"  }
+          { "INT_STAT"   , "0x08" , "be16"     ,"Interrupt Status"  }
+          { "IRQ_CTRL"   , "0x0a" , "be16"     ,"Interrupt Control" }
+          { "TSCNT"      , "0x36" , "be16"     ,"TS Counters"       }
+          { "MTPER"      , "0x40" , "vmtg32IO" ,"Mstr Trig Period"  }
+          { "IISPER"     , "0x44" , "vmtg32IO" ,"Intr Src Period"   }
+          { "TSZPER"     , "0x48" , "vmtg32IO" ,"TS0 Period"        }
+}
+
+file VMTGlirw.template {
+  pattern { field        , off    , desc                }
+          { "CSR0"       , "0x00" , "CSR 0"             }
+          { "CSR1"       , "0x02" , "CSR 1"             }
+          { "CSR2"       , "0x04" , "CSR 2"             }
+          { "SCFCTL"     , "0x0c" , "SC Filter Ctrl"    }
+          { "SCF_CLK0"   , "0x0e" , "SCF 0 Clock"       }
+          { "SCF_CLK1"   , "0x10" , "SCF 1 Clock"       }
+          { "MTPRSC"     , "0x12" , "MainTrg IDEL Presc"}
+          { "MTDLY"      , "0x14" , "MainTrg IDEL"      }
+          { "ETPRSC"     , "0x16" , "ExtTrg IDEL Presc" }
+          { "ETDLY"      , "0x18" , "ExtTrg IDEL"       }
+          { "MTGOFDEL"   , "0x1a" , "MTG Out Fine Delay"}
+          { "BDVER"      , "0x1c" , "Board/GW Version"  }
+          { "SMCTL"      , "0x22" , "SigMon Ctrl"       }
+          { "SM0PRSC"    , "0x24" , "SigMon0 IDEL Presc"}
+          { "SM0DLY"     , "0x26" , "SigMon0 IDEL"      }
+          { "SM0WID"     , "0x28" , "SigMon0 Width"     }
+          { "SM1PRSC"    , "0x2a" , "SigMon1 IDEL Presc"}
+          { "SM1DLY"     , "0x2c" , "SigMon1 IDEL"      }
+          { "SM1WID"     , "0x2e" , "SigMon1 Width"     }
+          { "GIPO"       , "0x30" , "GPIO Ctrl/Status"  }
+          { "INTIPRSC"   , "0x32" , "IRQ Delay Presc"   }
+          { "INTIDLY"    , "0x34" , "IRQ Delay"         }
+          { "TSZDPRSC"   , "0x38" , "TS0 Delay Presc"   }
+          { "TSZDDLY"    , "0x3a" , "TS0 Delay"         }
+          { "TSZOWPRSC"  , "0x3c" , "TS0 Width Presc"   }
+          { "TSZOWID"    , "0x3e" , "TS0 Width"         }
+          { "ADCFLT"     , "0x80" , "ADC Limit Faults"  }
+}
+
+file VMTGAdcOff.template {
+	pattern { prefix }
+			{ $(prefix) }
+}
+
+file VMTGAdcAi.template {
+	pattern { field        , off    , egu    , eslo    , eoff     , lopr    , hopr    , lolo    , low     , high    , hihi    , llsv       , lsv        , hsv        , hhsv       , desc            , flnk                   }
+            { "ADC_CH0"    , "0x50" , "dBm"  , "20.0"  , "+60.0"  , "-55"   , "10"    , "0"     , "0"     , "0"     , "0"     , "NO_ALARM" , "NO_ALARM" , "NO_ALARM" , "NO_ALARM" , "RF Power"      , ""                     }
+            { "ADC_CH1"    , "0x52" , "degC" , "100."  , "-60.0"  , "0"     , "60"    , "0"     , "0"     , "0"     , "0"     , "NO_ALARM" , "NO_ALARM" , "NO_ALARM" , "NO_ALARM" , "Board Temp"    , ""                     }
+            { "ADC_CH2"    , "0x54" , "V"    , "1.0"   , "0.0"    , "0"     , "2.0"   , "0"     , "0"     , "0"     , "0"     , "NO_ALARM" , "NO_ALARM" , "NO_ALARM" , "NO_ALARM" , "+1.2V Supply"  , ""                     }
+            { "ADC_CH3"    , "0x56" , "V"    , "1.0"   , "0.0"    , "0"     , "3.0"   , "0"     , "0"     , "0"     , "0"     , "NO_ALARM" , "NO_ALARM" , "NO_ALARM" , "NO_ALARM" , "+2.5V Supply"  , ""                     }
+            { "ADC_CH4"    , "0x58" , "V"    , "1.0"   , "0.0"    , "0"     , "3.5"   , "0"     , "0"     , "0"     , "0"     , "NO_ALARM" , "NO_ALARM" , "NO_ALARM" , "NO_ALARM" , "+3.3V Supply"  , ""                     }
+            { "ADC_CH5"    , "0x5a" , "V"    , "1.0"   , "0.0"    , "0"     , "5.5"   , "0"     , "0"     , "0"     , "0"     , "NO_ALARM" , "NO_ALARM" , "NO_ALARM" , "NO_ALARM" , "+5.0V Supply"  , ""                     }
+            { "ADC_CH6"    , "0x5c" , "V"    , "1.5"   , "0.0"    , "-5.5"  , "0"     , "0"     , "0"     , "0"     , "0"     , "NO_ALARM" , "NO_ALARM" , "NO_ALARM" , "NO_ALARM" , "-5.2V Supply"  , ""                     }
+            { "ADC_CH7"    , "0x5e" , "V"    , "1.0"   , "0.0"    , "-55"   , "10"    , "0"     , "0"     , "0"     , "0"     , "NO_ALARM" , "NO_ALARM" , "NO_ALARM" , "NO_ALARM" , "Gnd/Offset"    , "$(prefix):ADC_OFFSET" }
+}
+
+file VMTGAdcAo.template {
+	pattern { field        , off    , egu    , eslo    , eoff     , lopr    , hopr    , lolo    , low     , high    , hihi    , llsv       , lsv        , hsv        , hhsv       , desc            , flnk                   }
+            { "ADC_C0_LO"  , "0x60" , "dBm"  , "20.0"  , "+60.0"  , "-55"   , "10"    , "0"     , "0"     , "0"     , "0"     , "NO_ALARM" , "NO_ALARM" , "NO_ALARM" , "NO_ALARM" , "RF Power"      , ""                     }
+            { "ADC_C1_LO"  , "0x64" , "degC" , "100."  , "-60.0"  , "0"     , "60"    , "0"     , "0"     , "0"     , "0"     , "NO_ALARM" , "NO_ALARM" , "NO_ALARM" , "NO_ALARM" , "Board Temp"    , ""                     }
+            { "ADC_C2_LO"  , "0x68" , "V"    , "1.0"   , "0.0"    , "0"     , "2.0"   , "0"     , "0"     , "0"     , "0"     , "NO_ALARM" , "NO_ALARM" , "NO_ALARM" , "NO_ALARM" , "+1.2V Supply"  , ""                     }
+            { "ADC_C3_LO"  , "0x6c" , "V"    , "1.0"   , "0.0"    , "0"     , "3.0"   , "0"     , "0"     , "0"     , "0"     , "NO_ALARM" , "NO_ALARM" , "NO_ALARM" , "NO_ALARM" , "+2.5V Supply"  , ""                     }
+            { "ADC_C4_LO"  , "0x70" , "V"    , "1.0"   , "0.0"    , "0"     , "3.5"   , "0"     , "0"     , "0"     , "0"     , "NO_ALARM" , "NO_ALARM" , "NO_ALARM" , "NO_ALARM" , "+3.3V Supply"  , ""                     }
+            { "ADC_C5_LO"  , "0x74" , "V"    , "1.0"   , "0.0"    , "0"     , "5.5"   , "0"     , "0"     , "0"     , "0"     , "NO_ALARM" , "NO_ALARM" , "NO_ALARM" , "NO_ALARM" , "+5.0V Supply"  , ""                     }
+            { "ADC_C6_LO"  , "0x78" , "V"    , "1.5"   , "0.0"    , "-5.5"  , "0"     , "0"     , "0"     , "0"     , "0"     , "NO_ALARM" , "NO_ALARM" , "NO_ALARM" , "NO_ALARM" , "-5.2V Supply"  , ""                     }
+            { "ADC_C7_LO"  , "0x7c" , "V"    , "1.0"   , "0.0"    , "-55"   , "10"    , "0"     , "0"     , "0"     , "0"     , "NO_ALARM" , "NO_ALARM" , "NO_ALARM" , "NO_ALARM" , "Gnd/Offset"    , ""                     }
+
+            { "ADC_C0_HI"  , "0x62" , "dBm"  , "20.0"  , "+60.0"  , "-55"   , "10"    , "0"     , "0"     , "0"     , "0"     , "NO_ALARM" , "NO_ALARM" , "NO_ALARM" , "NO_ALARM" , "RF Power"      , ""                     }
+            { "ADC_C1_HI"  , "0x66" , "degC" , "100."  , "-60.0"  , "0"     , "60"    , "0"     , "0"     , "0"     , "0"     , "NO_ALARM" , "NO_ALARM" , "NO_ALARM" , "NO_ALARM" , "Board Temp"    , ""                     }
+            { "ADC_C2_HI"  , "0x6a" , "V"    , "1.0"   , "0.0"    , "0"     , "2.0"   , "0"     , "0"     , "0"     , "0"     , "NO_ALARM" , "NO_ALARM" , "NO_ALARM" , "NO_ALARM" , "+1.2V Supply"  , ""                     }
+            { "ADC_C3_HI"  , "0x6e" , "V"    , "1.0"   , "0.0"    , "0"     , "3.0"   , "0"     , "0"     , "0"     , "0"     , "NO_ALARM" , "NO_ALARM" , "NO_ALARM" , "NO_ALARM" , "+2.5V Supply"  , ""                     }
+            { "ADC_C4_HI"  , "0x72" , "V"    , "1.0"   , "0.0"    , "0"     , "3.5"   , "0"     , "0"     , "0"     , "0"     , "NO_ALARM" , "NO_ALARM" , "NO_ALARM" , "NO_ALARM" , "+3.3V Supply"  , ""                     }
+            { "ADC_C5_HI"  , "0x76" , "V"    , "1.0"   , "0.0"    , "0"     , "5.5"   , "0"     , "0"     , "0"     , "0"     , "NO_ALARM" , "NO_ALARM" , "NO_ALARM" , "NO_ALARM" , "+5.0V Supply"  , ""                     }
+            { "ADC_C6_HI"  , "0x7a" , "V"    , "1.5"   , "0.0"    , "-5.5"  , "0"     , "0"     , "0"     , "0"     , "0"     , "NO_ALARM" , "NO_ALARM" , "NO_ALARM" , "NO_ALARM" , "-5.2V Supply"  , ""                     }
+            { "ADC_C7_HI"  , "0x7e" , "V"    , "1.0"   , "0.0"    , "-55"   , "10"    , "0"     , "0"     , "0"     , "0"     , "NO_ALARM" , "NO_ALARM" , "NO_ALARM" , "NO_ALARM" , "Gnd/Offset"    , ""                     }
 }

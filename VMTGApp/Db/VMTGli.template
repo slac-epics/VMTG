@@ -1,0 +1,7 @@
+record(longin, "$(prefix):$(field)")
+{
+	field(DESC, "$(desc)")
+	field(DTYP, "BusAddress")
+	field(OUT,  "#C0S0@VMTG0+$(off),$(io)")
+	field(SCAN, "1 second")
+}
