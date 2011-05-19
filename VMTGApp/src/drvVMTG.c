@@ -1,4 +1,4 @@
-/* $Id: drvVMTG.c,v 1.1 2011/05/05 16:47:11 strauman Exp $ */
+/* $Id: drvVMTG.c,v 1.2 2011/05/11 22:58:45 strauman Exp $ */
 
 /* VMTG driver */
 
@@ -11,17 +11,36 @@
 #include <errlog.h>
 #include <inttypes.h>
 
+#include <basicIoOps.h>
+
 #define  VMTG_MAN_ID	(('S'<<16) | ('L' << 8) | 'A')
 #define  VMTG_BRD_ID    0x14407802
 
 #define  VMTG_FUN       0 /* VMTG is function 0 */
 
+#define  R32_HI_OFF     0
+#define  R32_LO_OFF     2
+
 uint16_t   vmtgLfsr = 0xace1;
 
-unsigned   vmtgVect = 0;
-int        vmtgSlot = 0;
-VME64_Addr vmtgCSRB = (VME64_Addr)0;
-VME64_Addr vmtgBase = (VME64_Addr)0;
+unsigned       vmtgVect = 0;
+int            vmtgSlot = 0;
+VME64_Addr     vmtgCSRB = (VME64_Addr)0;
+volatile void *vmtgBase = (volatile void*)0;
+
+static int
+vmtg32Rd(DevBusMappedPvt pvt, epicsUInt32 *pvalue, dbCommon *prec)
+{
+ 	*pvalue |= (in_be16( pvt->addr + R32_HI_OFF ) << 16);
+	*pvalue |= (in_be16( pvt->addr + R32_LO_OFF ) & 0xffff);
+	return 0;
+}
+
+static DevBusMappedAccessRec vmtg32IO = {
+	rd: vmtg32Rd,
+	wr: 0
+};
+
 
 static uint16_t
 vmtgRnd()
@@ -59,8 +78,8 @@ vmtgReport(int interest_level)
 	if ( vmtgSlot < 1 ) {
 		epicsPrintf("No VMTG card detected\n");
 	} else {
-		epicsPrintf("VMTG in slot #%i, @0x%"PRIxVME64A" (CSR @0x%"PRIxVME64A"), IRQ Vector: %u\n",
-		            vmtgSlot, vmtgBase, vmtgCSRB, vmtgVect);
+		epicsPrintf("VMTG in slot #%i, @0x%"PRIxVME64A" (CSR @0x%"PRIxPTR"), IRQ Vector: %u\n",
+		            vmtgSlot, (uintptr_t)vmtgBase, vmtgCSRB, vmtgVect);
 	}
 	return 0;
 }
@@ -102,7 +121,7 @@ int       lsb;
 	}
 printf("LSB: %u, base: 0x%p\n", lsb, vme_24_base);
 
-	vmtgBase = (VME64_Addr)vme_24_base;
+	vmtgBase = vme_24_base;
 
 	/* Hmm - there is no devLocalToBusAddr() but we need the *bus* address
 	 * for programming the ADER.
@@ -128,6 +147,12 @@ printf("LSB: %u, base: 0x%p\n", lsb, vme_24_base);
 		epicsPrintf("vmtgInit FAILED: Unable to register base address with devBusMapped\n");
 		goto bail;
 	}
+
+	if ( 0 == devBusMappedRegisterIO( "vmtg32IO", &vmtg32IO ) ) {
+		epicsPrintf("vmtgInit FAILED: Unable to register base address with devBusMapped\n");
+		goto bail;
+	}
+
 
 	vme64_out08( vmtgCSRB, VME64_CSR_OFF_BSET, VME64_CSR_BIT_MODENBL );
 	
