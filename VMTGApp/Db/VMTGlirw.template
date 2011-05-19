@@ -10,10 +10,5 @@ record(longout, "$(prefix):$(field)_DES")
 	field(PINI, "YES")
 }
 
-record(longin, "$(prefix):$(field)")
-{
-	field(DESC, "$(desc)")
-	field(DTYP, "BusAddress")
-	field(INP,  "#C0S0@VMTG0+$(off),be16")
-	field(SCAN, "1 second")
-}
+substitute io="be16"
+include "VMTGli.template"
