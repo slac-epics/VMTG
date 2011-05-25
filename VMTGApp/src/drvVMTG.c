@@ -1,4 +1,4 @@
-/* $Id: drvVMTG.c,v 1.2 2011/05/11 22:58:45 strauman Exp $ */
+/* $Id: drvVMTG.c,v 1.3 2011/05/19 15:01:10 strauman Exp $ */
 
 /* VMTG driver */
 
@@ -31,6 +31,7 @@ volatile void *vmtgBase = (volatile void*)0;
 static int
 vmtg32Rd(DevBusMappedPvt pvt, epicsUInt32 *pvalue, dbCommon *prec)
 {
+	*pvalue  = 0;
  	*pvalue |= (in_be16( pvt->addr + R32_HI_OFF ) << 16);
 	*pvalue |= (in_be16( pvt->addr + R32_LO_OFF ) & 0xffff);
 	return 0;
@@ -41,6 +42,45 @@ static DevBusMappedAccessRec vmtg32IO = {
 	wr: 0
 };
 
+static int
+vmtgCSR2Rd(DevBusMappedPvt pvt, epicsUInt32 *pvalue, dbCommon *prec)
+{
+	*pvalue = in_be16( pvt->addr );
+	return 0;
+}
+
+static int
+vmtgCSR2WrLo(DevBusMappedPvt pvt, epicsUInt32 value, dbCommon *prec)
+{
+epicsUInt16 oval;
+	/* When writing low bits (write-1-to-clear) then we don't want to
+	 * touch the high bits.
+	 */
+	oval  = in_be16( pvt->addr );
+	oval  = (oval & 0xff00) | ( value & 0xff);
+	out_be16( pvt->addr, oval );
+	return 0;
+}
+
+static int
+vmtgCSR2WrHi(DevBusMappedPvt pvt, epicsUInt32 value, dbCommon *prec)
+{
+	/* When writing hi bits ('normal' bits) then we don't want to
+	 * set any of the low bits.
+	 */
+	out_be16( pvt->addr, (value & 0xff00) );
+	return 0;
+}
+
+static DevBusMappedAccessRec vmtgCSR2Lo = {
+	rd: vmtg32Rd,
+	wr: vmtgCSR2WrLo
+};
+
+static DevBusMappedAccessRec vmtgCSR2Hi = {
+	rd: vmtg32Rd,
+	wr: vmtgCSR2WrHi
+};
 
 static uint16_t
 vmtgRnd()
@@ -148,11 +188,20 @@ printf("LSB: %u, base: 0x%p\n", lsb, vme_24_base);
 		goto bail;
 	}
 
-	if ( 0 == devBusMappedRegisterIO( "vmtg32IO", &vmtg32IO ) ) {
-		epicsPrintf("vmtgInit FAILED: Unable to register base address with devBusMapped\n");
+	if ( 0 != devBusMappedRegisterIO( "vmtg32IO", &vmtg32IO ) ) {
+		epicsPrintf("vmtgInit FAILED: Unable to register vmtg32IO with devBusMapped\n");
 		goto bail;
 	}
 
+	if ( 0 != devBusMappedRegisterIO( "vmtgCSR2Lo", &vmtgCSR2Lo ) ) {
+		epicsPrintf("vmtgInit FAILED: Unable to register vmtgCSR2Lo with devBusMapped\n");
+		goto bail;
+	}
+
+	if ( 0 != devBusMappedRegisterIO( "vmtgCSR2Hi", &vmtgCSR2Hi ) ) {
+		epicsPrintf("vmtgInit FAILED: Unable to register vmtgCSR2Hi with devBusMapped\n");
+		goto bail;
+	}
 
 	vme64_out08( vmtgCSRB, VME64_CSR_OFF_BSET, VME64_CSR_BIT_MODENBL );
 	
