@@ -1,7 +1,7 @@
 record(ai, "$(prefix):$(field)") {
 	field(DESC, "$(desc)")
 	field(DTYP, "BusAddress")
-	field(INP,  "#C0S0@VMTG0+$(off),inbe16")
+	field(INP,  "#C0S0@VMTG0+$(off),be16s")
 	field(PREC, "3")
 	field(LINR, "SLOPE")
 	field(EGU,  "$(egu)")

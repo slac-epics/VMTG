@@ -1,25 +1,40 @@
 file VMTGbo.template {
-  pattern { field        , off    , mask    , znam          , onam              , high, desc                }
-	      { "CSR0_MDE"   , "0x00" , "0x0002", "Normal"      ,"Diagnostic"       , "0" , "VMTG Mode Control" }
-	      { "CSR0_ARM"   , "0x00" , "0x0004", "Disarmed"    ,"Armed"            , "0" , "VMTG Arm"          }
-	      { "CSR0_ENA"   , "0x00" , "0x0008", "Disabled"    ,"Enabled"          , "0" , "VMTG Enable"       }
-	      { "CSR0_SGE"   , "0x00" , "0x0040", "Falling"     ,"Raising"          , "0" , "Seq Gen Edge Sel"  }
-	      { "CSR0_ETE"   , "0x00" , "0x0080", "Falling"     ,"Raising"          , "0" , "Ext Trg Edge Sel"  }
-	      { "CSR0_PLL"   , "0x00" , "0x0100", "VCO_OFF"     ,"VCO_ON"           , "0" , "PLL VCO Enable"    }
-	      { "CSR0_PLR"   , "0x00" , "0x0200", "Running"     ,"Reset"            , "1" , "PLL Presc Reset"   }
-	      { "CSR0_TSE"   , "0x00" , "0x0400", "Disabled"    ,"Enabled"          , "0" , "TS0 Detect Enbl"   }
-	      { "CSR0_TSG"   , "0x00" , "0x0800", "Falling"     ,"Raising"          , "0" , "TS0 Edge Sel"      }
-	      { "CSR0_IRE"   , "0x00" , "0x1000", "Disabled"    ,"Enabled"          , "0" , "360Hz Igen Enbl"   }
-	      { "CSR0_IRG"   , "0x00" , "0x2000", "Falling"     ,"Raising"          , "0" , "360Hz Igen Edge"   }
-	      { "CSR0_TSR"   , "0x00" , "0x4000", "Running"     ,"Resync"           , "1" , "TS Ctr Resync"     }
-	      { "CSR0_TSM"   , "0x00" , "0x8000", "Auto"        ,"Manual"           , "0" , "TS Ctr Resync Mode"}
+  pattern { field        , off    , boio         , mask    , znam          , onam              , high, desc                }
+	      { "CSR0_MDE"   , "0x00" , "be16"       , "0x0002", "Normal"      ,"Diagnostic"       , "0" , "VMTG Mode Control" }
+	      { "CSR0_ARM"   , "0x00" , "be16"       , "0x0004", "Disarmed"    ,"Armed"            , "0" , "VMTG Arm"          }
+	      { "CSR0_ENA"   , "0x00" , "be16"       , "0x0008", "Disabled"    ,"Enabled"          , "0" , "VMTG Enable"       }
+	      { "CSR0_SGE"   , "0x00" , "be16"       , "0x0040", "Falling"     ,"Raising"          , "0" , "Seq Gen Edge Sel"  }
+	      { "CSR0_ETE"   , "0x00" , "be16"       , "0x0080", "Falling"     ,"Raising"          , "0" , "Ext Trg Edge Sel"  }
+	      { "CSR0_PLL"   , "0x00" , "be16"       , "0x0100", "VCO_OFF"     ,"VCO_ON"           , "0" , "PLL VCO Enable"    }
+	      { "CSR0_PLR"   , "0x00" , "be16"       , "0x0200", "Running"     ,"Reset"            , "1" , "PLL Presc Reset"   }
+	      { "CSR0_TSE"   , "0x00" , "be16"       , "0x0400", "Disabled"    ,"Enabled"          , "0" , "TS0 Detect Enbl"   }
+	      { "CSR0_TSG"   , "0x00" , "be16"       , "0x0800", "Falling"     ,"Raising"          , "0" , "TS0 Edge Sel"      }
+	      { "CSR0_IRE"   , "0x00" , "be16"       , "0x1000", "Disabled"    ,"Enabled"          , "0" , "360Hz Igen Enbl"   }
+	      { "CSR0_IRG"   , "0x00" , "be16"       , "0x2000", "Falling"     ,"Raising"          , "0" , "360Hz Igen Edge"   }
+	      { "CSR0_TSR"   , "0x00" , "be16"       , "0x4000", "Running"     ,"Resync"           , "1" , "TS Ctr Resync"     }
+	      { "CSR0_TSM"   , "0x00" , "be16"       , "0x8000", "Auto"        ,"Manual"           , "0" , "TS Ctr Resync Mode"}
 
-	      { "CSR1_AEN"   , "0x02" , "0x0001", "Disabled"    ,"Enabled"          , "0" , "ADC Subsys Enbl"   }
-	      { "CSR1_ADG"   , "0x02" , "0x0002", "Idle"        ,"Trigger"          , "1" , "ADC SW Trigger"    }
+	      { "CSR1_AEN"   , "0x02" , "be16"       , "0x0001", "Disabled"    ,"Enabled"          , "0" , "ADC Subsys Enbl"   }
+	      { "CSR1_ADG"   , "0x02" , "be16"       , "0x0002", "Idle"        ,"Trigger"          , "1" , "ADC SW Trigger"    }
 
 		
-	      { "CSR2_MTG_IO", "0x04" , "0x4000", "Disabled"    ,"Enabled"          , "0" , "MTG I/O Signal"    }
-	      { "CSR2_MTG_TE", "0x04" , "0x8000", "Disabled"    ,"Enabled"          , "0" , "MTG TrigInp Enbl"  }
+	      { "CSR2_MTG_IO", "0x04" , "vmtgCSR2Hi" , "0x4000", "Disabled"    ,"Enabled"          , "0" , "MTG I/O Signal"    }
+	      { "CSR2_MTG_TE", "0x04" , "vmtgCSR2Hi" , "0x8000", "Disabled"    ,"Enabled"          , "0" , "MTG TrigInp Enbl"  }
+
+	      { "SMCTL_OME0" , "0x22" , "be16"       , "0x0001", "Disabled"    ,"Enabled"          , "0" , "SigMon0 Out Enbl"  }
+	      { "SMCTL_OMP0" , "0x22" , "be16"       , "0x0002", "Negative"    ,"Positive"         , "0" , "SigMon0 Out Polr"  }
+	      { "SMCTL_OMM0" , "0x22" , "be16"       , "0x0004", "Pulsed"      ,"Raw"              , "0" , "SigMon0 Out Mode"  }
+
+	      { "SMCTL_OME1" , "0x22" , "be16"       , "0x0100", "Disabled"    ,"Enabled"          , "0" , "SigMon1 Out Enbl"  }
+	      { "SMCTL_OMP1" , "0x22" , "be16"       , "0x0200", "Negative"    ,"Positive"         , "0" , "SigMon1 Out Polr"  }
+	      { "SMCTL_OMM1" , "0x22" , "be16"       , "0x0400", "Pulsed"      ,"Raw"              , "0" , "SigMon1 Out Mode"  }
+
+}
+
+file VMTGOM.template {
+  pattern { inst, shft }
+          { "0" , "4"  }
+          { "1" , "12" }
 }
 
 #file VMTGmbbo.template {
@@ -33,19 +48,20 @@ file VMTGbo.template {
 #}
 
 file VMTGStatusBit.template {
-  pattern { field        , off    , mask    , znam          , onam              , high , desc                }
-	      { "CSR2_MTM"   , "0x04" , "0x0001", "Normal"      ,"Dropped"          , "0"  , "MTG Trig Miss"     }
-	      { "CSR2_IQM"   , "0x04" , "0x0002", "Normal"      ,"Dropped"          , "0"  , "IQM Trig Miss"     }
-	      { "CSR2_TSM"   , "0x04" , "0x0004", "Normal"      ,"Dropped"          , "0"  , "TSM Trig Miss"     }
-	      { "CSR2_GTO"   , "0x04" , "0x0008", "Gate OK"     ,"Gate BAD"         , "0"  , "MTG Gate Stat"     }
-	      { "CSR2_C8O"   , "0x04" , "0x0010", "Missing"     ,"Normal"           , "0"  , "8.5MHz Clk Stat"   }
-	      { "CSR2_ETR"   , "0x04" , "0x0020", "NO MstrTrig" ,"OK MstrTrig"      , "0"  , "Master Trig Miss"  }
-	      { "CSR2_FTR"   , "0x04" , "0x0040", "Normal"      ,"Generated"        , "0"  , "Failsafe Trig"     }
-	      { "CSR2_RFO"   , "0x04" , "0x0080", "Missing"     ,"Normal"           , "0"  , "476Mhz Input Stat" }
+  pattern { field        , off    , boio         , mask    , znam          , onam              , high , desc                }
+	      { "CSR2_MTM"   , "0x04" , "vmtgCSR2Lo" , "0x0001", "Normal"      ,"Dropped"          , "0"  , "MTG Trig Miss"     }
+	      { "CSR2_IQM"   , "0x04" , "vmtgCSR2Lo" , "0x0002", "Normal"      ,"Dropped"          , "0"  , "IQM Trig Miss"     }
+	      { "CSR2_TSM"   , "0x04" , "vmtgCSR2Lo" , "0x0004", "Normal"      ,"Dropped"          , "0"  , "TSM Trig Miss"     }
+	      { "CSR2_GTO"   , "0x04" , "vmtgCSR2Lo" , "0x0008", "Gate OK"     ,"Gate BAD"         , "0"  , "MTG Gate Stat"     }
+	      { "CSR2_C8O"   , "0x04" , "vmtgCSR2Lo" , "0x0010", "Present"     ,"Missing"          , "0"  , "8.5MHz Clk Stat"   }
+	      { "CSR2_ETR"   , "0x04" , "vmtgCSR2Lo" , "0x0020", "Present"     ,"Missing"          , "0"  , "Master Trig Miss"  }
+	      { "CSR2_FTR"   , "0x04" , "vmtgCSR2Lo" , "0x0040", "Normal"      ,"Generated"        , "0"  , "Failsafe Trig"     }
+	      { "CSR2_RFO"   , "0x04" , "vmtgCSR2Lo" , "0x0080", "Normal"      ,"Missing"          , "0"  , "476Mhz Input Stat" }
 # DCL, DPO, DNS are non-latching - leave bit-clear records there but they have no effect
-	      { "CSR2_DCL"   , "0x04" , "0x0100", "Not Locked"  ,"Locked"           , "0"  , "DCM Lock Stat"     }
-	      { "CSR2_DPO"   , "0x04" , "0x0200", "Normal"      ,"Limit Reached"    , "0"  , "DCM PShft Stat"    }
-	      { "CSR2_DNS"   , "0x04" , "0x0400", "Missing"     ,"Normal"           , "0"  , "DCM Stat"          }
+	      { "CSR2_DCL"   , "0x04" , "vmtgCSR2Hi" , "0x0100", "Locked"      ,"Not Locked"       , "0"  , "DCM Lock Stat"     }
+	      { "CSR2_DPO"   , "0x04" , "vmtgCSR2Hi" , "0x0200", "Normal"      ,"Limit Reached"    , "0"  , "DCM PShft Stat"    }
+	      { "CSR2_DNS"   , "0x04" , "vmtgCSR2Hi" , "0x0400", "Normal"      ,"Missing"          , "0"  , "DCM Stat"          }
+          { "ADCFLT_SUM" , "0x80" , "be16"       , "0xffff", "Normal"      ,"ADC Fault"        , "0"  , "ADC Flt Summary"   }
 }
 
 file VMTGli.template {
@@ -54,9 +70,13 @@ file VMTGli.template {
           { "INT_STAT"   , "0x08" , "be16"     ,"Interrupt Status"  }
           { "IRQ_CTRL"   , "0x0a" , "be16"     ,"Interrupt Control" }
           { "TSCNT"      , "0x36" , "be16"     ,"TS Counters"       }
-          { "MTPER"      , "0x40" , "vmtg32IO" ,"Mstr Trig Period"  }
-          { "IISPER"     , "0x44" , "vmtg32IO" ,"Intr Src Period"   }
-          { "TSZPER"     , "0x48" , "vmtg32IO" ,"TS0 Period"        }
+}
+
+file VMTGPerFrq.template {
+  pattern { field        , off    , lopr    , hopr    , lolo    , low     , high    , hihi    , llsv       , lsv        , hsv        , hhsv       , desc            }
+          { "MT"         , "0x40" , "0"     , "1000"  , "0"     , "0"     , "0"     , "0"     , "NO_ALARM" , "NO_ALARM" , "NO_ALARM" , "NO_ALARM" , "Mstr Trig"     }
+          { "IIS"        , "0x44" , "0"     , "1000"  , "0"     , "0"     , "0"     , "0"     , "NO_ALARM" , "NO_ALARM" , "NO_ALARM" , "NO_ALARM" , "Intr Src"      }
+          { "TSZ"        , "0x48" , "0"     , "1000"  , "0"     , "0"     , "0"     , "0"     , "NO_ALARM" , "NO_ALARM" , "NO_ALARM" , "NO_ALARM" , "TS0"           }
 }
 
 file VMTGlirw.template {
@@ -91,39 +111,42 @@ file VMTGlirw.template {
 }
 
 file VMTGAdcOff.template {
-	pattern { prefix }
-			{ $(prefix) }
+	pattern { calc }
+			{ "-A" }
 }
 
 file VMTGAdcAi.template {
 	pattern { field        , off    , egu    , eslo    , eoff     , lopr    , hopr    , lolo    , low     , high    , hihi    , llsv       , lsv        , hsv        , hhsv       , desc            , flnk                   }
-            { "ADC_CH0"    , "0x50" , "dBm"  , "20.0"  , "+60.0"  , "-55"   , "10"    , "0"     , "0"     , "0"     , "0"     , "NO_ALARM" , "NO_ALARM" , "NO_ALARM" , "NO_ALARM" , "RF Power"      , ""                     }
-            { "ADC_CH1"    , "0x52" , "degC" , "100."  , "-60.0"  , "0"     , "60"    , "0"     , "0"     , "0"     , "0"     , "NO_ALARM" , "NO_ALARM" , "NO_ALARM" , "NO_ALARM" , "Board Temp"    , ""                     }
+            { "ADC_CH0"    , "0x50" , "dBm"  , "20.0"  , "-60.0"  , "-60"   , "20"    , "0"     , "0"     , "0"     , "0"     , "NO_ALARM" , "NO_ALARM" , "NO_ALARM" , "NO_ALARM" , "RF Power"      , ""                     }
+# ( (counts * 0.152mV/count) - 600mV ) / 10mV/degC = V * 100 degC/V - 60degC
+#
+# F = degC * 9/5 + 32  = V * 100 degC/V * 1.8 F/degC - 60 degC * 1.8 F/degC + 32 F = V * 180 F/V - 108 F + 32 F = V * 180 F/V - 76 F
+            { "ADC_CH1"    , "0x52" , "F"    , "180."  , "-76.0"  , "0"     , "500"   , "0"     , "0"     , "0"     , "0"     , "NO_ALARM" , "NO_ALARM" , "NO_ALARM" , "NO_ALARM" , "Board Temp"    , ""                     }
             { "ADC_CH2"    , "0x54" , "V"    , "1.0"   , "0.0"    , "0"     , "2.0"   , "0"     , "0"     , "0"     , "0"     , "NO_ALARM" , "NO_ALARM" , "NO_ALARM" , "NO_ALARM" , "+1.2V Supply"  , ""                     }
             { "ADC_CH3"    , "0x56" , "V"    , "1.0"   , "0.0"    , "0"     , "3.0"   , "0"     , "0"     , "0"     , "0"     , "NO_ALARM" , "NO_ALARM" , "NO_ALARM" , "NO_ALARM" , "+2.5V Supply"  , ""                     }
             { "ADC_CH4"    , "0x58" , "V"    , "1.0"   , "0.0"    , "0"     , "3.5"   , "0"     , "0"     , "0"     , "0"     , "NO_ALARM" , "NO_ALARM" , "NO_ALARM" , "NO_ALARM" , "+3.3V Supply"  , ""                     }
-            { "ADC_CH5"    , "0x5a" , "V"    , "1.0"   , "0.0"    , "0"     , "5.5"   , "0"     , "0"     , "0"     , "0"     , "NO_ALARM" , "NO_ALARM" , "NO_ALARM" , "NO_ALARM" , "+5.0V Supply"  , ""                     }
+            { "ADC_CH5"    , "0x5a" , "V"    , "1.0"   , "0.0"    , "0"     , "4.999" , "0"     , "0"     , "0"     , "0"     , "NO_ALARM" , "NO_ALARM" , "NO_ALARM" , "NO_ALARM" , "+5.0V Supply"  , ""                     }
             { "ADC_CH6"    , "0x5c" , "V"    , "1.5"   , "0.0"    , "-5.5"  , "0"     , "0"     , "0"     , "0"     , "0"     , "NO_ALARM" , "NO_ALARM" , "NO_ALARM" , "NO_ALARM" , "-5.2V Supply"  , ""                     }
-            { "ADC_CH7"    , "0x5e" , "V"    , "1.0"   , "0.0"    , "-55"   , "10"    , "0"     , "0"     , "0"     , "0"     , "NO_ALARM" , "NO_ALARM" , "NO_ALARM" , "NO_ALARM" , "Gnd/Offset"    , "$(prefix):ADC_OFFSET" }
+            { "ADC_CH7"    , "0x5e" , "V"    , "1.0"   , "0.0"    , "-2"    , "2"     , "0"     , "0"     , "0"     , "0"     , "NO_ALARM" , "NO_ALARM" , "NO_ALARM" , "NO_ALARM" , "Gnd/Offset"    , "$(prefix):ADC_OFFSET" }
 }
 
 file VMTGAdcAo.template {
 	pattern { field        , off    , egu    , eslo    , eoff     , lopr    , hopr    , lolo    , low     , high    , hihi    , llsv       , lsv        , hsv        , hhsv       , desc            , flnk                   }
-            { "ADC_C0_LO"  , "0x60" , "dBm"  , "20.0"  , "+60.0"  , "-55"   , "10"    , "0"     , "0"     , "0"     , "0"     , "NO_ALARM" , "NO_ALARM" , "NO_ALARM" , "NO_ALARM" , "RF Power"      , ""                     }
-            { "ADC_C1_LO"  , "0x64" , "degC" , "100."  , "-60.0"  , "0"     , "60"    , "0"     , "0"     , "0"     , "0"     , "NO_ALARM" , "NO_ALARM" , "NO_ALARM" , "NO_ALARM" , "Board Temp"    , ""                     }
+            { "ADC_C0_LO"  , "0x60" , "dBm"  , "20.0"  , "-60.0"  , "-60"   , "20"    , "0"     , "0"     , "0"     , "0"     , "NO_ALARM" , "NO_ALARM" , "NO_ALARM" , "NO_ALARM" , "RF Power"      , ""                     }
+            { "ADC_C1_LO"  , "0x64" , "F"    , "180."  , "-76.0"  , "0"     , "500"   , "0"     , "0"     , "0"     , "0"     , "NO_ALARM" , "NO_ALARM" , "NO_ALARM" , "NO_ALARM" , "Board Temp"    , ""                     }
             { "ADC_C2_LO"  , "0x68" , "V"    , "1.0"   , "0.0"    , "0"     , "2.0"   , "0"     , "0"     , "0"     , "0"     , "NO_ALARM" , "NO_ALARM" , "NO_ALARM" , "NO_ALARM" , "+1.2V Supply"  , ""                     }
             { "ADC_C3_LO"  , "0x6c" , "V"    , "1.0"   , "0.0"    , "0"     , "3.0"   , "0"     , "0"     , "0"     , "0"     , "NO_ALARM" , "NO_ALARM" , "NO_ALARM" , "NO_ALARM" , "+2.5V Supply"  , ""                     }
             { "ADC_C4_LO"  , "0x70" , "V"    , "1.0"   , "0.0"    , "0"     , "3.5"   , "0"     , "0"     , "0"     , "0"     , "NO_ALARM" , "NO_ALARM" , "NO_ALARM" , "NO_ALARM" , "+3.3V Supply"  , ""                     }
-            { "ADC_C5_LO"  , "0x74" , "V"    , "1.0"   , "0.0"    , "0"     , "5.5"   , "0"     , "0"     , "0"     , "0"     , "NO_ALARM" , "NO_ALARM" , "NO_ALARM" , "NO_ALARM" , "+5.0V Supply"  , ""                     }
+            { "ADC_C5_LO"  , "0x74" , "V"    , "1.0"   , "0.0"    , "0"     , "4.999" , "0"     , "0"     , "0"     , "0"     , "NO_ALARM" , "NO_ALARM" , "NO_ALARM" , "NO_ALARM" , "+5.0V Supply"  , ""                     }
             { "ADC_C6_LO"  , "0x78" , "V"    , "1.5"   , "0.0"    , "-5.5"  , "0"     , "0"     , "0"     , "0"     , "0"     , "NO_ALARM" , "NO_ALARM" , "NO_ALARM" , "NO_ALARM" , "-5.2V Supply"  , ""                     }
-            { "ADC_C7_LO"  , "0x7c" , "V"    , "1.0"   , "0.0"    , "-55"   , "10"    , "0"     , "0"     , "0"     , "0"     , "NO_ALARM" , "NO_ALARM" , "NO_ALARM" , "NO_ALARM" , "Gnd/Offset"    , ""                     }
+            { "ADC_C7_LO"  , "0x7c" , "V"    , "1.0"   , "0.0"    , "-2"    , "2"     , "0"     , "0"     , "0"     , "0"     , "NO_ALARM" , "NO_ALARM" , "NO_ALARM" , "NO_ALARM" , "Gnd/Offset"    , ""                     }
 
-            { "ADC_C0_HI"  , "0x62" , "dBm"  , "20.0"  , "+60.0"  , "-55"   , "10"    , "0"     , "0"     , "0"     , "0"     , "NO_ALARM" , "NO_ALARM" , "NO_ALARM" , "NO_ALARM" , "RF Power"      , ""                     }
-            { "ADC_C1_HI"  , "0x66" , "degC" , "100."  , "-60.0"  , "0"     , "60"    , "0"     , "0"     , "0"     , "0"     , "NO_ALARM" , "NO_ALARM" , "NO_ALARM" , "NO_ALARM" , "Board Temp"    , ""                     }
+            { "ADC_C0_HI"  , "0x62" , "dBm"  , "20.0"  , "-60.0"  , "-60"   , "20"    , "0"     , "0"     , "0"     , "0"     , "NO_ALARM" , "NO_ALARM" , "NO_ALARM" , "NO_ALARM" , "RF Power"      , ""                     }
+            { "ADC_C1_HI"  , "0x66" , "F"    , "180."  , "-76.0"  , "0"     , "500"   , "0"     , "0"     , "0"     , "0"     , "NO_ALARM" , "NO_ALARM" , "NO_ALARM" , "NO_ALARM" , "Board Temp"    , ""                     }
             { "ADC_C2_HI"  , "0x6a" , "V"    , "1.0"   , "0.0"    , "0"     , "2.0"   , "0"     , "0"     , "0"     , "0"     , "NO_ALARM" , "NO_ALARM" , "NO_ALARM" , "NO_ALARM" , "+1.2V Supply"  , ""                     }
             { "ADC_C3_HI"  , "0x6e" , "V"    , "1.0"   , "0.0"    , "0"     , "3.0"   , "0"     , "0"     , "0"     , "0"     , "NO_ALARM" , "NO_ALARM" , "NO_ALARM" , "NO_ALARM" , "+2.5V Supply"  , ""                     }
             { "ADC_C4_HI"  , "0x72" , "V"    , "1.0"   , "0.0"    , "0"     , "3.5"   , "0"     , "0"     , "0"     , "0"     , "NO_ALARM" , "NO_ALARM" , "NO_ALARM" , "NO_ALARM" , "+3.3V Supply"  , ""                     }
-            { "ADC_C5_HI"  , "0x76" , "V"    , "1.0"   , "0.0"    , "0"     , "5.5"   , "0"     , "0"     , "0"     , "0"     , "NO_ALARM" , "NO_ALARM" , "NO_ALARM" , "NO_ALARM" , "+5.0V Supply"  , ""                     }
+            { "ADC_C5_HI"  , "0x76" , "V"    , "1.0"   , "0.0"    , "0"     , "4.999" , "0"     , "0"     , "0"     , "0"     , "NO_ALARM" , "NO_ALARM" , "NO_ALARM" , "NO_ALARM" , "+5.0V Supply"  , ""                     }
             { "ADC_C6_HI"  , "0x7a" , "V"    , "1.5"   , "0.0"    , "-5.5"  , "0"     , "0"     , "0"     , "0"     , "0"     , "NO_ALARM" , "NO_ALARM" , "NO_ALARM" , "NO_ALARM" , "-5.2V Supply"  , ""                     }
-            { "ADC_C7_HI"  , "0x7e" , "V"    , "1.0"   , "0.0"    , "-55"   , "10"    , "0"     , "0"     , "0"     , "0"     , "NO_ALARM" , "NO_ALARM" , "NO_ALARM" , "NO_ALARM" , "Gnd/Offset"    , ""                     }
+            { "ADC_C7_HI"  , "0x7e" , "V"    , "1.0"   , "0.0"    , "-2"    , "2"     , "0"     , "0"     , "0"     , "0"     , "NO_ALARM" , "NO_ALARM" , "NO_ALARM" , "NO_ALARM" , "Gnd/Offset"    , ""                     }
 }

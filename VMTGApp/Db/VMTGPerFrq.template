@@ -1,0 +1,25 @@
+record(calc, "$(prefix):$(field)FRQ") {
+	field(DESC, "$(desc) Freq")
+	field(PREC, "3")
+	field(EGU,  "Hz")
+	field(SCAN, "1 second")
+	field(INPA, "$(prefix):$(field)PER PP MS")
+	field(CALC, "A==0?0:(80000000/A)")
+	field(HOPR, "$(hopr)")
+	field(LOPR, "$(lopr)")
+	field(HIHI, "$(hihi)")
+	field(LOLO, "$(lolo)")
+	field(HIGH, "$(high)")
+	field(LOW , "$(low)")
+	field(HHSV, "$(hhsv)")
+	field(LLSV, "$(llsv)")
+	field(HSV,  "$(hsv)")
+	field(LSV,  "$(lsv)")
+}
+
+record(longin, "$(prefix):$(field)PER") {
+	field(DESC, "$(desc) Period")
+	field(EGU,  "12.5ns")
+	field(DTYP, "BusAddress")
+	field(INP,  "#C0S0@VMTG0+$(off),vmtg32IO")
+}

@@ -17,7 +17,7 @@ record(bo, "$(prefix):$(field)_CLR")
 {
 	field(DESC, "$(desc) (CLR)")
 	field(DTYP, "Raw Soft Channel")
-	field(OUT,  "$(field)_RCL PP MS")
+	field(OUT,  "$(prefix):$(field)_RCL PP MS")
 	field(ZNAM, "$(znam)")
 	field(ONAM, "$(onam)")
 	field(MASK, "$(mask)")
@@ -28,7 +28,7 @@ record(bo, "$(prefix):$(field)_RCL")
 {
 	field(DESC, "Internal PV")
 	field(DTYP, "BusAddress")
-	field(OUT,  "#C0S0@VMTG0+$(off),be16")
+	field(OUT,  "#C0S0@VMTG0+$(off),$(boio)")
 }
 
 record(bi, "$(prefix):$(field)")
@@ -37,7 +37,9 @@ record(bi, "$(prefix):$(field)")
 	field(DTYP, "BusAddress")
 	field(INP,  "#C0S0@VMTG0+$(off),be16")
 	field(ZNAM, "$(znam)")
+	field(ZSV,  "NO_ALARM")
 	field(ONAM, "$(onam)")
+	field(OSV,  "MAJOR")
 	field(MASK, "$(mask)")
 	field(SCAN, "1 second")
 }

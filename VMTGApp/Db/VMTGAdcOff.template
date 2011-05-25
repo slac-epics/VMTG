@@ -2,7 +2,7 @@ record(calc, "$(prefix):ADC_OFFSET") {
 	field(DESC, "ADC Offset (negative)")
 	field(EGU,  "V")
 	field(INPA, "$(prefix):ADC_CH7 NPP MS")
-	field(CALC, "-A")
+	field(CALC, "$(calc)")
 	field(FLNK, "$(prefix):ADC_OFF_FO1")
 }
 

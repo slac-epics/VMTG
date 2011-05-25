@@ -3,7 +3,7 @@ include "VMTGAdcAi.template"
 record(ao, "$(prefix):$(field)_DES") {
 	field(DESC, "$(desc)")
 	field(DTYP, "BusAddress")
-	field(OUT,  "#C0S0@VMTG0+$(off),inbe16")
+	field(OUT,  "#C0S0@VMTG0+$(off),be16s")
 	field(PREC, "3")
 	field(LINR, "SLOPE")
 	field(EGU,  "$(egu)")

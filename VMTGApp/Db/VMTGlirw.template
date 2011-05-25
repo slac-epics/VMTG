@@ -7,8 +7,7 @@ record(longout, "$(prefix):$(field)_DES")
 	field(LOPR, "0")
 	field(DRVH, "65535")
 	field(HOPR, "65535")
-	field(PINI, "YES")
 }
 
-substitute io="be16"
+substitute "io=be16"
 include "VMTGli.template"
