@@ -32,9 +32,8 @@ file VMTGbo.template {
 }
 
 file VMTGOM.template {
-  pattern { inst, shft }
-          { "0" , "4"  }
-          { "1" , "12" }
+  pattern { dummy }
+          { "$(prefix)" }
 }
 
 #file VMTGmbbo.template {
