@@ -1,4 +1,4 @@
-/* $Id: drvVMTG.c,v 1.5 2011/06/01 17:14:06 strauman Exp $ */
+/* $Id: drvVMTG.c,v 1.6 2011/06/01 17:49:14 strauman Exp $ */
 
 /* VMTG driver */
 
@@ -173,6 +173,15 @@ long     rval;
 	return rval;
 }
 
+static uint32_t nsdiff(uint32_t b, uint32_t e)
+{
+	if ( e < b )
+		e += 1000000000L;
+	return e-b;
+}
+
+volatile uint32_t vmtgTestIRQT0PR =  0;
+volatile uint32_t vmtgTestIRQTSPR =  0;
 volatile uint32_t vmtgTestIRQDiff = -1;
 volatile uint32_t vmtgTestIRQCntr =  0;
 
@@ -183,7 +192,9 @@ volatile uint32_t vmtgTestIRQCntr =  0;
 uint16_t
 vmtgTestISR(uint16_t irqs_pending, void *uarg)
 {
-static uint32_t start;
+static uint32_t start_t0;
+static uint32_t start_ts;
+
 struct timespec now;
 
 	vmtgTestIRQCntr++;
@@ -191,23 +202,21 @@ struct timespec now;
 	/* filter-out interrupts we're interested in */
 	irqs_pending &= (REG_IRQ_CTRL_EI | REG_IRQ_CTRL_TS0I);
 
+	clock_gettime( CLOCK_REALTIME, &now );
+
 	if ( irqs_pending == (REG_IRQ_CTRL_EI | REG_IRQ_CTRL_TS0I) ) {
 		/* Not enough delay between the two interrupts */
 		vmtgTestIRQDiff = 0;
-	}
-
-	clock_gettime( CLOCK_REALTIME, &now );
-	if ( (REG_IRQ_CTRL_EI & irqs_pending) ) {
+		start_t0 = start_ts = now.tv_nsec;
+	} else if ( (REG_IRQ_CTRL_EI & irqs_pending) ) {
 		if ( 1 == vmtgGetTS() ) {
-			if ( start > now.tv_nsec )
-				start -= 1000000000UL;
-			vmtgTestIRQDiff = now.tv_nsec - start;
-
+			vmtgTestIRQDiff = nsdiff( start_t0, now.tv_nsec );
+			vmtgTSPR        = nsdiff( start_ts, now.tv_nsec );
+			start_ts = now.tv_nsec;
 		}
-	}
-
-	if ( (REG_IRQ_CTRL_TS0I & irqs_pending) ) {
-		start = now.tv_nsec;
+	} else if ( (REG_IRQ_CTRL_TS0I & irqs_pending) ) {
+		vmtgTestT0PR = nsdiff( start_t0, now.tv_nsec );
+		start_t0 = now.tv_nsec;
 	}
 
 	return irqs_pending;
