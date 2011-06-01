@@ -1,4 +1,4 @@
-/* $Id: drvVMTG.c,v 1.6 2011/06/01 17:49:14 strauman Exp $ */
+/* $Id: drvVMTG.c,v 1.7 2011/06/01 18:48:50 strauman Exp $ */
 
 /* VMTG driver */
 
@@ -211,12 +211,12 @@ struct timespec now;
 	} else if ( (REG_IRQ_CTRL_EI & irqs_pending) ) {
 		if ( 1 == vmtgGetTS() ) {
 			vmtgTestIRQDiff = nsdiff( start_t0, now.tv_nsec );
-			vmtgTSPR        = nsdiff( start_ts, now.tv_nsec );
-			start_ts = now.tv_nsec;
+			vmtgTestIRQTSPR = nsdiff( start_ts, now.tv_nsec );
+			start_ts        = now.tv_nsec;
 		}
 	} else if ( (REG_IRQ_CTRL_TS0I & irqs_pending) ) {
-		vmtgTestT0PR = nsdiff( start_t0, now.tv_nsec );
-		start_t0 = now.tv_nsec;
+		vmtgTestIRQT0PR = nsdiff( start_t0, now.tv_nsec );
+		start_t0        = now.tv_nsec;
 	}
 
 	return irqs_pending;
