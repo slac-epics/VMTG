@@ -1,4 +1,4 @@
-/* $Id: drvVMTG.c,v 1.3 2011/05/19 15:01:10 strauman Exp $ */
+/* $Id: drvVMTG.c,v 1.4 2011/05/25 04:10:47 strauman Exp $ */
 
 /* VMTG driver */
 
@@ -10,8 +10,11 @@
 #include <devBusMapped.h>
 #include <errlog.h>
 #include <inttypes.h>
+#include <time.h>
 
 #include <basicIoOps.h>
+
+#include <drvVMTG.h>
 
 #define  VMTG_MAN_ID	(('S'<<16) | ('L' << 8) | 'A')
 #define  VMTG_BRD_ID    0x14407802
@@ -21,7 +24,16 @@
 #define  R32_HI_OFF     0
 #define  R32_LO_OFF     2
 
-uint16_t   vmtgLfsr = 0xace1;
+#define REG_IRQ_CTRL    0x0a
+#define REG_TSCNT       0x36
+
+#define TSCNT_M3(cnt)   ( ((cnt) >> 0 ) & 0x03 )
+#define TSCNT_M6(cnt)   ( ((cnt) >> 4 ) & 0x07 )
+#define TSCNT_M360(cnt) ( ((cnt) >> 7 ) & 0x1f )
+
+static VMTGIsr  vmtgIsr = 0;
+
+uint16_t       vmtgLfsr = 0xace1;
 
 unsigned       vmtgVect = 0;
 int            vmtgSlot = 0;
@@ -73,12 +85,12 @@ vmtgCSR2WrHi(DevBusMappedPvt pvt, epicsUInt32 value, dbCommon *prec)
 }
 
 static DevBusMappedAccessRec vmtgCSR2Lo = {
-	rd: vmtg32Rd,
+	rd: vmtgCSR2Rd,
 	wr: vmtgCSR2WrLo
 };
 
 static DevBusMappedAccessRec vmtgCSR2Hi = {
-	rd: vmtg32Rd,
+	rd: vmtgCSR2Rd,
 	wr: vmtgCSR2WrHi
 };
 
@@ -94,20 +106,107 @@ int      key;
 	return rval;
 }
 
+static void
+vme_isr(void *parm)
+{
+uint16_t handled;
+uint16_t lvl;
+
+	handled = vmtgIsr( in_be16( vmtgBase + REG_IRQ_CTRL ), parm );
+
+	lvl     = handled & REG_IRQ_CTRL_LVL_MASK;
+
+	handled = (handled & ~REG_IRQ_CTRL_LVL_MASK);
+
+	out_be16( vmtgBase + REG_IRQ_CTRL, handled | lvl );
+}
+
+uint16_t
+vmtgIrqsDisable(void)
+{
+int      k;
+uint16_t rval;
+	k = epicsInterruptLock();
+		rval = in_be16( vmtgBase + REG_IRQ_CTRL );
+		out_be16( vmtgBase + REG_IRQ_CTRL, rval & ~REG_IRQ_CTRL_LVL_MASK );
+	epicsInterruptUnlock( k );
+
+	return rval;
+}
+
+void
+vmtgIrqsEnable(uint16_t key)
+{
+	out_be16( vmtgBase + REG_IRQ_CTRL, key );
+}
+
+int
+vmtgGetTS(void)
+{
+	return TSCNT_M6( in_be16( vmtgBase + REG_TSCNT ) ) + 1;
+}
+
+int
+vmtgGetTSMod3(void)
+{
+	return TSCNT_M3( in_be16( vmtgBase + REG_TSCNT ) ) + 1;
+}
+
 long
-vmtgInstallISR(void (*isr)(void* parm), void *parm)
+vmtgInstallISR(VMTGIsr isr, void *parm)
 {
 int      i;
 unsigned v;
 long     rval;
 
+	if ( ! isr || vmtgIsr )
+		return -1;
+
 	i = 0;
 	do {
 		v    = vmtgRnd() & 0xff;
-		rval = devConnectInterruptVME( v, isr, parm );
+		rval = devConnectInterruptVME( v, vme_isr, parm );
 	} while ( S_dev_vectorInUse == rval && i++ < 10 );
 	
 	return rval;
+}
+
+uint32_t
+vmtgTestIRQDiff = -1;
+
+/* This ISR measures the time elapsed between a TS0 interrupt
+ * and an 'external' interrupt occurring on TS0. This delay should
+ * be the difference between the (programmable) TS0 and EI delays.
+ */
+uint16_t
+vmtgTestISR(uint16_t irqs_pending, void *uarg)
+{
+static uint32_t start;
+struct timespec now;
+
+	/* filter-out interrupts we're interested in */
+	irqs_pending &= (REG_IRQ_CTRL_EI | REG_IRQ_CTRL_TS0I);
+
+	if ( irqs_pending == (REG_IRQ_CTRL_EI | REG_IRQ_CTRL_TS0I) ) {
+		/* Not enough delay between the two interrupts */
+		vmtgTestIRQDiff = 0;
+	}
+
+	clock_gettime( CLOCK_REALTIME, &now );
+	if ( (REG_IRQ_CTRL_EI & irqs_pending) ) {
+		if ( 1 == vmtgGetTS() ) {
+			if ( start > now.tv_nsec )
+				start -= 1000000000UL;
+			vmtgTestIRQDiff = now.tv_nsec - start;
+
+		}
+	}
+
+	if ( (REG_IRQ_CTRL_TS0I & irqs_pending) ) {
+		start = now.tv_nsec;
+	}
+
+	return irqs_pending;
 }
 
 
@@ -159,7 +258,6 @@ int       lsb;
 		epicsPrintf("vmtgInit FAILED: Unable to map %u bytes of VME A24 space\n", (1<<lsb));
 		goto bail;
 	}
-printf("LSB: %u, base: 0x%p\n", lsb, vme_24_base);
 
 	vmtgBase = vme_24_base;
 
@@ -206,10 +304,6 @@ printf("LSB: %u, base: 0x%p\n", lsb, vme_24_base);
 	vme64_out08( vmtgCSRB, VME64_CSR_OFF_BSET, VME64_CSR_BIT_MODENBL );
 	
 	rval     = 0;
-
-#warning "Remove this test"
-	*(volatile uint16_t*)vmtgBase = 2;
-
 
 bail:
 
