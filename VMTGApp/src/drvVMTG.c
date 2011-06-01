@@ -1,4 +1,4 @@
-/* $Id: drvVMTG.c,v 1.4 2011/05/25 04:10:47 strauman Exp $ */
+/* $Id: drvVMTG.c,v 1.5 2011/06/01 17:14:06 strauman Exp $ */
 
 /* VMTG driver */
 
@@ -24,6 +24,8 @@
 #define  R32_HI_OFF     0
 #define  R32_LO_OFF     2
 
+#define REG_INTVEC      0x06
+#define REG_INT_STAT    0x08
 #define REG_IRQ_CTRL    0x0a
 #define REG_TSCNT       0x36
 
@@ -110,15 +112,10 @@ static void
 vme_isr(void *parm)
 {
 uint16_t handled;
-uint16_t lvl;
 
-	handled = vmtgIsr( in_be16( vmtgBase + REG_IRQ_CTRL ), parm );
+	handled = vmtgIsr( in_be16( vmtgBase + REG_INT_STAT ), parm );
 
-	lvl     = handled & REG_IRQ_CTRL_LVL_MASK;
-
-	handled = (handled & ~REG_IRQ_CTRL_LVL_MASK);
-
-	out_be16( vmtgBase + REG_IRQ_CTRL, handled | lvl );
+	out_be16( vmtgBase + REG_INT_STAT, handled );
 }
 
 uint16_t
@@ -167,12 +164,17 @@ long     rval;
 		v    = vmtgRnd() & 0xff;
 		rval = devConnectInterruptVME( v, vme_isr, parm );
 	} while ( S_dev_vectorInUse == rval && i++ < 10 );
+
+	if ( S_dev_success == rval ) {
+		vmtgVect = v;
+		out_be16( vmtgBase + REG_INTVEC, v );
+	}
 	
 	return rval;
 }
 
-uint32_t
-vmtgTestIRQDiff = -1;
+volatile uint32_t vmtgTestIRQDiff = -1;
+volatile uint32_t vmtgTestIRQCntr =  0;
 
 /* This ISR measures the time elapsed between a TS0 interrupt
  * and an 'external' interrupt occurring on TS0. This delay should
@@ -183,6 +185,8 @@ vmtgTestISR(uint16_t irqs_pending, void *uarg)
 {
 static uint32_t start;
 struct timespec now;
+
+	vmtgTestIRQCntr++;
 
 	/* filter-out interrupts we're interested in */
 	irqs_pending &= (REG_IRQ_CTRL_EI | REG_IRQ_CTRL_TS0I);
