@@ -11,6 +11,8 @@ include $(TOP)/configure/CONFIG
 LIBRARY_IOC_RTEMS = VMTGSup
 PROD_IOC_RTEMS = VMTG
 
+INC += drvVMTG.h
+
 DBD += VMTG.dbd
 DBD += VMTGSup.dbd
 # VMTG.dbd will be made up from these files:
