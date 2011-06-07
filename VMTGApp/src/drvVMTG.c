@@ -1,4 +1,4 @@
-/* $Id: drvVMTG.c,v 1.7 2011/06/01 18:48:50 strauman Exp $ */
+/* $Id: drvVMTG.c,v 1.8 2011/06/01 18:49:49 strauman Exp $ */
 
 /* VMTG driver */
 
@@ -32,6 +32,8 @@
 #define TSCNT_M3(cnt)   ( ((cnt) >> 0 ) & 0x03 )
 #define TSCNT_M6(cnt)   ( ((cnt) >> 4 ) & 0x07 )
 #define TSCNT_M360(cnt) ( ((cnt) >> 7 ) & 0x1f )
+
+#define MAX_VEC_RETRIES 10
 
 static VMTGIsr  vmtgIsr = 0;
 
@@ -160,13 +162,15 @@ long     rval;
 		return -1;
 
 	i = 0;
+
 	do {
 		v    = vmtgRnd() & 0xff;
 		rval = devConnectInterruptVME( v, vme_isr, parm );
-	} while ( S_dev_vectorInUse == rval && i++ < 10 );
+	} while ( S_dev_vectorInUse == rval && i++ < MAX_VEC_RETRIES );
 
 	if ( S_dev_success == rval ) {
 		vmtgVect = v;
+		vmtgIsr  = isr;
 		out_be16( vmtgBase + REG_INTVEC, v );
 	}
 	
