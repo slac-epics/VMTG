@@ -8,6 +8,7 @@ record(longout, "$(prefix):$(field)_DES")
 	field(LOPR, "0")
 	field(DRVH, "65535")
 	field(HOPR, "65535")
+	field(EGU,  "$(egu)")
 	field(PINI, "YES")
 }
 

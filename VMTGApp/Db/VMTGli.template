@@ -3,5 +3,6 @@ record(longin, "$(prefix):$(field)")
 	field(DESC, "$(desc)")
 	field(DTYP, "BusAddress")
 	field(INP,  "#C0S0@VMTG0+$(off),$(io)")
+	field(EGU,  "$(egu)")
 	field(SCAN, "1 second")
 }
