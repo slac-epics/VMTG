@@ -20,13 +20,11 @@ EPICS_MODULES=$(MODULES_SITE_TOP)
 # Define the version of modules needed by
 # IOC apps or other Support apps
 # =============================================================
-DEVBUSMAPPED_MODULE_VERSION=strauman
-MISCUTILS_MODULE_VERSION=strauman
+#DEVBUSMAPPED_MODULE_VERSION=strauman
+DEVBUSMAPPED_MODULE_VERSION=devBusMapped-R3-0-1
+MISCUTILS_MODULE_VERSION=miscUtils-R2-2-2
+# ============================================================
 
-# ============================================================
-#  IPAC release V2-7 or later is required.
-# Carrier card support for acromag and xycom
-# ============================================================
 DEVBUSMAPPED=$(EPICS_MODULES)/devBusMapped/$(DEVBUSMAPPED_MODULE_VERSION)
 MISCUTILS=$(EPICS_MODULES)/miscUtils/$(MISCUTILS_MODULE_VERSION)
 
