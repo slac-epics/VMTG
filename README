@@ -1,0 +1,26 @@
+Timing tests with respect to PNET module.
+
+I don't have a spec that tells me anything
+about the phase relationship of the 360Hz
+interrupt trigger (VMTG) with respect to
+the fiducial. So the best we can do ATM is
+measuring the VMTG IRQ phase with respect
+to the PNET interrupt and then adjust the
+VMTG delay so that we get the usual
+150us post PNET arrival.
+
+a)  CSR0_IRG = 0 (falling edge of 360Hz signal)
+    INTIPRSC = 0
+    INTIDLY  = 0
+   vmtgIRQTime - pnetIRQTime = 2.36ms
+
+b) set prescaler to 80 so the delay is conveniently
+   in microseconds.
+    INTIPRSC = 80
+    INTIDLY  = 80
+   -> still 2.36ms as expected
+
+c) set delay to 1/360Hz - 2360us + 150us ~= 570us
+    INTIPRSC = 80
+    INTIDLY  = 570
+   vmtgIRQTime - pnetIRQTime = 158us
