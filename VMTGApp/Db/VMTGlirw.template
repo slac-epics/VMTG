@@ -3,10 +3,12 @@ record(longout, "$(prefix):$(field)_DES")
 	field(DESC, "$(desc)")
 	field(DTYP, "BusAddress")
 	field(OUT,  "#C0S0@VMTG0+$(off),be16")
+	field(DOL,  "$(dol)")
 	field(DRVL, "0")
 	field(LOPR, "0")
 	field(DRVH, "65535")
 	field(HOPR, "65535")
+	field(PINI, "YES")
 }
 
 substitute "io=be16"

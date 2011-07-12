@@ -1,34 +1,33 @@
 file VMTGbo.template {
-  pattern { field        , off    , boio         , mask    , znam          , onam              , high, desc                }
-	      { "CSR0_MDE"   , "0x00" , "be16"       , "0x0002", "Normal"      ,"Diagnostic"       , "0" , "VMTG Mode Control" }
-	      { "CSR0_ARM"   , "0x00" , "be16"       , "0x0004", "Disarmed"    ,"Armed"            , "0" , "VMTG Arm"          }
-	      { "CSR0_ENA"   , "0x00" , "be16"       , "0x0008", "Disabled"    ,"Enabled"          , "0" , "VMTG Enable"       }
-	      { "CSR0_SGE"   , "0x00" , "be16"       , "0x0040", "Falling"     ,"Raising"          , "0" , "Seq Gen Edge Sel"  }
-	      { "CSR0_ETE"   , "0x00" , "be16"       , "0x0080", "Falling"     ,"Raising"          , "0" , "Ext Trg Edge Sel"  }
-	      { "CSR0_PLL"   , "0x00" , "be16"       , "0x0100", "VCO_OFF"     ,"VCO_ON"           , "0" , "PLL VCO Enable"    }
-	      { "CSR0_PLR"   , "0x00" , "be16"       , "0x0200", "Running"     ,"Reset"            , "1" , "PLL Presc Reset"   }
-	      { "CSR0_TSE"   , "0x00" , "be16"       , "0x0400", "Disabled"    ,"Enabled"          , "0" , "TS0 Detect Enbl"   }
-	      { "CSR0_TSG"   , "0x00" , "be16"       , "0x0800", "Falling"     ,"Raising"          , "0" , "TS0 Edge Sel"      }
-	      { "CSR0_IRE"   , "0x00" , "be16"       , "0x1000", "Disabled"    ,"Enabled"          , "0" , "360Hz Igen Enbl"   }
-	      { "CSR0_IRG"   , "0x00" , "be16"       , "0x2000", "Falling"     ,"Raising"          , "0" , "360Hz Igen Edge"   }
-	      { "CSR0_TSR"   , "0x00" , "be16"       , "0x4000", "Running"     ,"Resync"           , "1" , "TS Ctr Resync"     }
-	      { "CSR0_TSM"   , "0x00" , "be16"       , "0x8000", "Auto"        ,"Manual"           , "0" , "TS Ctr Resync Mode"}
+  pattern { field        , off    , boio         , mask    , znam          , onam              , high,  dol, pini , desc                }
+	      { "CSR0_MDE"   , "0x00" , "be16"       , "0x0002", "Normal"      ,"Diagnostic"       , "0" ,  "0", "NO" , "VMTG Mode Control" }
+	      { "CSR0_ARM"   , "0x00" , "be16"       , "0x0004", "Disarmed"    ,"Armed"            , "0" ,  "0", "NO" , "VMTG Arm"          }
+	      { "CSR0_ENA"   , "0x00" , "be16"       , "0x0008", "Disabled"    ,"Enabled"          , "0" ,  "0", "NO" , "VMTG Enable"       }
+	      { "CSR0_SGE"   , "0x00" , "be16"       , "0x0040", "Falling"     ,"Raising"          , "0" ,  "0", "NO" , "Seq Gen Edge Sel"  }
+	      { "CSR0_ETE"   , "0x00" , "be16"       , "0x0080", "Falling"     ,"Raising"          , "0" ,  "0", "NO" , "Ext Trg Edge Sel"  }
+	      { "CSR0_PLL"   , "0x00" , "be16"       , "0x0100", "VCO_OFF"     ,"VCO_ON"           , "0" ,  "0", "NO" , "PLL VCO Enable"    }
+	      { "CSR0_PLR"   , "0x00" , "be16"       , "0x0200", "Running"     ,"Reset"            , "1" ,  "0", "NO" , "PLL Presc Reset"   }
+	      { "CSR0_TSE"   , "0x00" , "be16"       , "0x0400", "Disabled"    ,"Enabled"          , "0" ,  "0", "NO" , "TS0 Detect Enbl"   }
+	      { "CSR0_TSG"   , "0x00" , "be16"       , "0x0800", "Falling"     ,"Raising"          , "0" ,  "0", "NO" , "TS0 Edge Sel"      }
+	      { "CSR0_IRE"   , "0x00" , "be16"       , "0x1000", "Disabled"    ,"Enabled"          , "0" ,  "0", "NO" , "360Hz Igen Enbl"   }
+	      { "CSR0_IRG"   , "0x00" , "be16"       , "0x2000", "Falling"     ,"Raising"          , "0" ,  "0", "NO" , "360Hz Igen Edge"   }
+	      { "CSR0_TSR"   , "0x00" , "be16"       , "0x4000", "Running"     ,"Resync"           , "1" ,  "0", "NO" , "TS Ctr Resync"     }
+	      { "CSR0_TSM"   , "0x00" , "be16"       , "0x8000", "Auto"        ,"Manual"           , "0" ,  "0", "NO" , "TS Ctr Resync Mode"}
 
-	      { "CSR1_AEN"   , "0x02" , "be16"       , "0x0001", "Disabled"    ,"Enabled"          , "0" , "ADC Subsys Enbl"   }
-	      { "CSR1_ADG"   , "0x02" , "be16"       , "0x0002", "Idle"        ,"Trigger"          , "1" , "ADC SW Trigger"    }
+	      { "CSR1_AEN"   , "0x02" , "be16"       , "0x0001", "Disabled"    ,"Enabled"          , "0" ,  "0", "NO" , "ADC Subsys Enbl"   }
+	      { "CSR1_ADG"   , "0x02" , "be16"       , "0x0002", "Idle"        ,"Trigger"          , "1" ,  "0", "NO" , "ADC SW Trigger"    }
 
 		
-	      { "CSR2_MTG_IO", "0x04" , "vmtgCSR2Hi" , "0x4000", "Disabled"    ,"Enabled"          , "0" , "MTG I/O Signal"    }
-	      { "CSR2_MTG_TE", "0x04" , "vmtgCSR2Hi" , "0x8000", "Disabled"    ,"Enabled"          , "0" , "MTG TrigInp Enbl"  }
+	      { "CSR2_MTG_IO", "0x04" , "vmtgCSR2Hi" , "0x4000", "Disabled"    ,"Enabled"          , "0" ,  "0", "NO" , "MTG I/O Signal"    }
+	      { "CSR2_MTG_TE", "0x04" , "vmtgCSR2Hi" , "0x8000", "Disabled"    ,"Enabled"          , "0" ,  "0", "NO" , "MTG TrigInp Enbl"  }
 
-	      { "SMCTL_OME0" , "0x22" , "be16"       , "0x0001", "Disabled"    ,"Enabled"          , "0" , "SigMon0 Out Enbl"  }
-	      { "SMCTL_OMP0" , "0x22" , "be16"       , "0x0002", "Negative"    ,"Positive"         , "0" , "SigMon0 Out Polr"  }
-	      { "SMCTL_OMM0" , "0x22" , "be16"       , "0x0004", "Pulsed"      ,"Raw"              , "0" , "SigMon0 Out Mode"  }
+	      { "SMCTL_OME0" , "0x22" , "be16"       , "0x0001", "Disabled"    ,"Enabled"          , "0" ,  "0", "YES", "SigMon0 Out Enbl"  }
+	      { "SMCTL_OMP0" , "0x22" , "be16"       , "0x0002", "Negative"    ,"Positive"         , "0" ,  "1", "YES", "SigMon0 Out Polr"  }
+	      { "SMCTL_OMM0" , "0x22" , "be16"       , "0x0004", "Pulsed"      ,"Raw"              , "0" ,  "0", "YES", "SigMon0 Out Mode"  }
 
-	      { "SMCTL_OME1" , "0x22" , "be16"       , "0x0100", "Disabled"    ,"Enabled"          , "0" , "SigMon1 Out Enbl"  }
-	      { "SMCTL_OMP1" , "0x22" , "be16"       , "0x0200", "Negative"    ,"Positive"         , "0" , "SigMon1 Out Polr"  }
-	      { "SMCTL_OMM1" , "0x22" , "be16"       , "0x0400", "Pulsed"      ,"Raw"              , "0" , "SigMon1 Out Mode"  }
-
+	      { "SMCTL_OME1" , "0x22" , "be16"       , "0x0100", "Disabled"    ,"Enabled"          , "0" ,  "0", "YES", "SigMon1 Out Enbl"  }
+	      { "SMCTL_OMP1" , "0x22" , "be16"       , "0x0200", "Negative"    ,"Positive"         , "0" ,  "1", "YES", "SigMon1 Out Polr"  }
+	      { "SMCTL_OMM1" , "0x22" , "be16"       , "0x0400", "Pulsed"      ,"Raw"              , "0" ,  "0", "YES", "SigMon1 Out Mode"  }
 }
 
 file VMTGOM.template {
@@ -68,6 +67,8 @@ file VMTGli.template {
           { "INT_VEC"    , "0x06" , "be16"     ,"Interrupt Vector"  }
           { "INT_STAT"   , "0x08" , "be16"     ,"Interrupt Status"  }
           { "IRQ_CTRL"   , "0x0a" , "be16"     ,"Interrupt Control" }
+          { "BDVER"      , "0x1c" , "be16"     ,"Board/GW Version"  }
+          { "SMCTL"      , "0x22" , "be16"     ,"SigMon Ctrl"       }
           { "TSCNT"      , "0x36" , "be16"     ,"TS Counters"       }
 }
 
@@ -79,34 +80,32 @@ file VMTGPerFrq.template {
 }
 
 file VMTGlirw.template {
-  pattern { field        , off    , desc                }
-          { "CSR0"       , "0x00" , "CSR 0"             }
-          { "CSR1"       , "0x02" , "CSR 1"             }
-          { "CSR2"       , "0x04" , "CSR 2"             }
-          { "SCFCTL"     , "0x0c" , "SC Filter Ctrl"    }
-          { "SCF_CLK0"   , "0x0e" , "SCF 0 Clock"       }
-          { "SCF_CLK1"   , "0x10" , "SCF 1 Clock"       }
-          { "MTPRSC"     , "0x12" , "MainTrg IDEL Presc"}
-          { "MTDLY"      , "0x14" , "MainTrg IDEL"      }
-          { "ETPRSC"     , "0x16" , "ExtTrg IDEL Presc" }
-          { "ETDLY"      , "0x18" , "ExtTrg IDEL"       }
-          { "MTGOFDEL"   , "0x1a" , "MTG Out Fine Delay"}
-          { "BDVER"      , "0x1c" , "Board/GW Version"  }
-          { "SMCTL"      , "0x22" , "SigMon Ctrl"       }
-          { "SM0PRSC"    , "0x24" , "SigMon0 IDEL Presc"}
-          { "SM0DLY"     , "0x26" , "SigMon0 IDEL"      }
-          { "SM0WID"     , "0x28" , "SigMon0 Width"     }
-          { "SM1PRSC"    , "0x2a" , "SigMon1 IDEL Presc"}
-          { "SM1DLY"     , "0x2c" , "SigMon1 IDEL"      }
-          { "SM1WID"     , "0x2e" , "SigMon1 Width"     }
-          { "GIPO"       , "0x30" , "GPIO Ctrl/Status"  }
-          { "INTIPRSC"   , "0x32" , "IRQ Delay Presc"   }
-          { "INTIDLY"    , "0x34" , "IRQ Delay"         }
-          { "TSZDPRSC"   , "0x38" , "TS0 Delay Presc"   }
-          { "TSZDDLY"    , "0x3a" , "TS0 Delay"         }
-          { "TSZOWPRSC"  , "0x3c" , "TS0 Width Presc"   }
-          { "TSZOWID"    , "0x3e" , "TS0 Width"         }
-          { "ADCFLT"     , "0x80" , "ADC Limit Faults"  }
+  pattern { field        , off    , dol     , desc                }
+          { "CSR0"       , "0x00" ,  "7180" , "CSR 0"             }
+          { "CSR1"       , "0x02" , "32769" , "CSR 1"             }
+          { "CSR2"       , "0x04" , "32768" , "CSR 2"             }
+          { "SCFCTL"     , "0x0c" , "61325" , "SC Filter Ctrl"    }
+          { "SCF_CLK0"   , "0x0e" ,   "166" , "SCF 0 Clock"       }
+          { "SCF_CLK1"   , "0x10" ,   "166" , "SCF 1 Clock"       }
+          { "MTPRSC"     , "0x12" , "00000" , "MainTrg IDEL Presc"}
+          { "MTDLY"      , "0x14" , "00000" , "MainTrg IDEL"      }
+          { "ETPRSC"     , "0x16" , "00000" , "ExtTrg IDEL Presc" }
+          { "ETDLY"      , "0x18" , "00000" , "ExtTrg IDEL"       }
+          { "MTGOFDEL"   , "0x1a" , "00000" , "MTG Out Fine Delay"}
+          { "SM0PRSC"    , "0x24" ,     "8" , "SigMon0 IDEL Presc"}
+          { "SM0DLY"     , "0x26" , "00000" , "SigMon0 IDEL"      }
+          { "SM0WID"     , "0x28" , "00001" , "SigMon0 Width"     }
+          { "SM1PRSC"    , "0x2a" ,     "8" , "SigMon1 IDEL Presc"}
+          { "SM1DLY"     , "0x2c" , "00000" , "SigMon1 IDEL"      }
+          { "SM1WID"     , "0x2e" , "00001" , "SigMon1 Width"     }
+          { "GIPO"       , "0x30" , "00000" , "GPIO Ctrl/Status"  }
+          { "INTIPRSC"   , "0x32" ,    "80" , "IRQ Delay Presc"   }
+          { "INTIDLY"    , "0x34" , "00000" , "IRQ Delay"         }
+          { "TSZDPRSC"   , "0x38" , "00080" , "TS0 Delay Presc"   }
+          { "TSZDDLY"    , "0x3a" , "00000" , "TS0 Delay"         }
+          { "TSZOWPRSC"  , "0x3c" , "00004" , "TS0 Width Presc"   }
+          { "TSZOWID"    , "0x3e" , "35200" , "TS0 Width"         }
+          { "ADCFLT"     , "0x80" , "00000" , "ADC Limit Faults"  }
 }
 
 file VMTGAdcOff.template {

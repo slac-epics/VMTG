@@ -23,5 +23,6 @@ record(ao, "$(prefix):$(field)_DES") {
 #	field(LSV,  "$(lsv)")
 	field(ESLO, "$(eslo)")
 	field(EOFF, "$(eoff)")
+	field(PINI, "YES")
 #	field(FLNK, "$(flnk)")
 }
