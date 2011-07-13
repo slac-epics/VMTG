@@ -7,5 +7,6 @@ record(bo, "$(prefix):$(field)")
 	field(ONAM, "$(onam)")
 	field(MASK, "$(mask)")
 	field(HIGH, "$(high)")
-	field(PINI, "$(pini"))
+	field(DOL,  "$(dol)" )
+	field(PINI, "$(pini)")
 }
