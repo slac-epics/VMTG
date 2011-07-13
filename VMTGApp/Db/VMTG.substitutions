@@ -63,13 +63,13 @@ file VMTGStatusBit.template {
 }
 
 file VMTGli.template {
-  pattern { field        , off    , io         ,desc                }
-          { "INT_VEC"    , "0x06" , "be16"     ,"Interrupt Vector"  }
-          { "INT_STAT"   , "0x08" , "be16"     ,"Interrupt Status"  }
-          { "IRQ_CTRL"   , "0x0a" , "be16"     ,"Interrupt Control" }
-          { "BDVER"      , "0x1c" , "be16"     ,"Board/GW Version"  }
-          { "SMCTL"      , "0x22" , "be16"     ,"SigMon Ctrl"       }
-          { "TSCNT"      , "0x36" , "be16"     ,"TS Counters"       }
+  pattern { field        , off    , egu      , io         ,desc                }
+          { "INT_VEC"    , "0x06" , ""       , "be16"     ,"Interrupt Vector"  }
+          { "INT_STAT"   , "0x08" , ""       , "be16"     ,"Interrupt Status"  }
+          { "IRQ_CTRL"   , "0x0a" , ""       , "be16"     ,"Interrupt Control" }
+          { "BDVER"      , "0x1c" , ""       , "be16"     ,"Board/GW Version"  }
+          { "SMCTL"      , "0x22" , ""       , "be16"     ,"SigMon Ctrl"       }
+          { "TSCNT"      , "0x36" , ""       , "be16"     ,"TS Counters"       }
 }
 
 file VMTGPerFrq.template {
@@ -80,32 +80,32 @@ file VMTGPerFrq.template {
 }
 
 file VMTGlirw.template {
-  pattern { field        , off    , dol     , desc                }
-          { "CSR0"       , "0x00" ,  "7180" , "CSR 0"             }
-          { "CSR1"       , "0x02" , "32769" , "CSR 1"             }
-          { "CSR2"       , "0x04" , "32768" , "CSR 2"             }
-          { "SCFCTL"     , "0x0c" , "61325" , "SC Filter Ctrl"    }
-          { "SCF_CLK0"   , "0x0e" ,   "166" , "SCF 0 Clock"       }
-          { "SCF_CLK1"   , "0x10" ,   "166" , "SCF 1 Clock"       }
-          { "MTPRSC"     , "0x12" , "00000" , "MainTrg IDEL Presc"}
-          { "MTDLY"      , "0x14" , "00000" , "MainTrg IDEL"      }
-          { "ETPRSC"     , "0x16" , "00000" , "ExtTrg IDEL Presc" }
-          { "ETDLY"      , "0x18" , "00000" , "ExtTrg IDEL"       }
-          { "MTGOFDEL"   , "0x1a" , "00000" , "MTG Out Fine Delay"}
-          { "SM0PRSC"    , "0x24" ,     "8" , "SigMon0 IDEL Presc"}
-          { "SM0DLY"     , "0x26" , "00000" , "SigMon0 IDEL"      }
-          { "SM0WID"     , "0x28" , "00001" , "SigMon0 Width"     }
-          { "SM1PRSC"    , "0x2a" ,     "8" , "SigMon1 IDEL Presc"}
-          { "SM1DLY"     , "0x2c" , "00000" , "SigMon1 IDEL"      }
-          { "SM1WID"     , "0x2e" , "00001" , "SigMon1 Width"     }
-          { "GIPO"       , "0x30" , "00000" , "GPIO Ctrl/Status"  }
-          { "INTIPRSC"   , "0x32" ,    "80" , "IRQ Delay Presc"   }
-          { "INTIDLY"    , "0x34" , "00000" , "IRQ Delay"         }
-          { "TSZDPRSC"   , "0x38" , "00080" , "TS0 Delay Presc"   }
-          { "TSZDDLY"    , "0x3a" , "00000" , "TS0 Delay"         }
-          { "TSZOWPRSC"  , "0x3c" , "00004" , "TS0 Width Presc"   }
-          { "TSZOWID"    , "0x3e" , "35200" , "TS0 Width"         }
-          { "ADCFLT"     , "0x80" , "00000" , "ADC Limit Faults"  }
+  pattern { field        , off    , dol     , egu      , desc                }
+          { "CSR0"       , "0x00" ,  "7180" , ""       , "CSR 0"             }
+          { "CSR1"       , "0x02" , "32769" , ""       , "CSR 1"             }
+          { "CSR2"       , "0x04" , "32768" , ""       , "CSR 2"             }
+          { "SCFCTL"     , "0x0c" , "61325" , ""       , "SC Filter Ctrl"    }
+          { "SCF_CLK0"   , "0x0e" ,   "166" , ""       , "SCF 0 Clock"       }
+          { "SCF_CLK1"   , "0x10" ,   "166" , ""       , "SCF 1 Clock"       }
+          { "MTPRSC"     , "0x12" , "00000" , ""       , "MainTrg IDEL Presc"}
+          { "MTDLY"      , "0x14" , "00000" , ""       , "MainTrg IDEL"      }
+          { "ETPRSC"     , "0x16" , "00000" , ""       , "ExtTrg IDEL Presc" }
+          { "ETDLY"      , "0x18" , "00000" , ""       , "ExtTrg IDEL"       }
+          { "MTGOFDEL"   , "0x1a" , "00000" , ""       , "MTG Out Fine Delay"}
+          { "SM0PRSC"    , "0x24" ,     "8" , ""       , "SigMon0 IDEL Presc"}
+          { "SM0DLY"     , "0x26" , "00000" , ""       , "SigMon0 IDEL"      }
+          { "SM0WID"     , "0x28" , "00001" , ""       , "SigMon0 Width"     }
+          { "SM1PRSC"    , "0x2a" ,     "8" , ""       , "SigMon1 IDEL Presc"}
+          { "SM1DLY"     , "0x2c" , "00000" , ""       , "SigMon1 IDEL"      }
+          { "SM1WID"     , "0x2e" , "00001" , ""       , "SigMon1 Width"     }
+          { "GIPO"       , "0x30" , "00000" , ""       , "GPIO Ctrl/Status"  }
+          { "INTIPRSC"   , "0x32" ,    "80" , ""       , "IRQ Delay Presc"   }
+          { "INTIDLY"    , "0x34" , "00000" , "uS"     , "IRQ Delay"         }
+          { "TSZDPRSC"   , "0x38" , "00080" , ""       , "TS0 Delay Presc"   }
+          { "TSZDDLY"    , "0x3a" , "00000" , "uS"     , "TS0 Delay"         }
+          { "TSZOWPRSC"  , "0x3c" , "00004" , ""       , "TS0 Width Presc"   }
+          { "TSZOWID"    , "0x3e" , "35200" , ""       , "TS0 Width"         }
+          { "ADCFLT"     , "0x80" , "00000" , ""       , "ADC Limit Faults"  }
 }
 
 file VMTGAdcOff.template {
