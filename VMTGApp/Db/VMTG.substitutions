@@ -81,9 +81,9 @@ file VMTGPerFrq.template {
 
 file VMTGlirw.template {
   pattern { field        , off    , dol     , egu      , desc                }
-          { "CSR0"       , "0x00" ,  "7180" , ""       , "CSR 0"             }
-          { "CSR1"       , "0x02" , "32769" , ""       , "CSR 1"             }
-          { "CSR2"       , "0x04" , "32768" , ""       , "CSR 2"             }
+          { "CSR0"       , "0x00" ,"0x140c" , ""       , "CSR 0"             }
+          { "CSR1"       , "0x02" ,"0x8001" , ""       , "CSR 1"             }
+          { "CSR2"       , "0x04" ,"0x8000" , ""       , "CSR 2"             }
           { "SCFCTL"     , "0x0c" , "61325" , ""       , "SC Filter Ctrl"    }
           { "SCF_CLK0"   , "0x0e" ,   "166" , ""       , "SCF 0 Clock"       }
           { "SCF_CLK1"   , "0x10" ,   "166" , ""       , "SCF 1 Clock"       }
@@ -100,10 +100,10 @@ file VMTGlirw.template {
           { "SM1WID"     , "0x2e" , "00001" , ""       , "SigMon1 Width"     }
           { "GIPO"       , "0x30" , "00000" , ""       , "GPIO Ctrl/Status"  }
           { "INTIPRSC"   , "0x32" ,    "80" , ""       , "IRQ Delay Presc"   }
-          { "INTIDLY"    , "0x34" , "00000" , "uS"     , "IRQ Delay"         }
-          { "TSZDPRSC"   , "0x38" , "00080" , ""       , "TS0 Delay Presc"   }
-          { "TSZDDLY"    , "0x3a" , "00000" , "uS"     , "TS0 Delay"         }
-          { "TSZOWPRSC"  , "0x3c" , "00004" , ""       , "TS0 Width Presc"   }
+          { "INTIDLY"    , "0x34" , "$(intidly)",  "uS", "IRQ Delay"         }
+          { "TSZDPRSC"   , "0x38" ,    "80" , ""       , "TS0 Delay Presc"   }
+          { "TSZDDLY"    , "0x3a" , "$(tszddly)",  "uS", "TS0 Delay"         }
+          { "TSZOWPRSC"  , "0x3c" ,     "4" , ""       , "TS0 Width Presc"   }
           { "TSZOWID"    , "0x3e" , "35200" , ""       , "TS0 Width"         }
           { "ADCFLT"     , "0x80" , "00000" , ""       , "ADC Limit Faults"  }
 }
