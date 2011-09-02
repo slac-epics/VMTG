@@ -24,3 +24,9 @@ c) set delay to 1/360Hz - 2360us + 150us ~= 570us
     INTIPRSC = 80
     INTIDLY  = 570
    vmtgIRQTime - pnetIRQTime = 158us
+
+Then also adjust TSZDDLY so that PNET and VMTG
+timeslot numbers match. The VMTG's TS counter
+increments synchronously with the VMTG interrupt.
+Use VMTG_TSDIFF PV to read offset from PNET to
+VMTG interrupt.
