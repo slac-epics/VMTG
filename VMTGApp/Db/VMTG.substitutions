@@ -100,9 +100,9 @@ file VMTGlirw.template {
           { "SM1WID"     , "0x2e" , "00001" , ""       , "SigMon1 Width"     }
           { "GIPO"       , "0x30" , "00000" , ""       , "GPIO Ctrl/Status"  }
           { "INTIPRSC"   , "0x32" ,    "80" , ""       , "IRQ Delay Presc"   }
-          { "INTIDLY"    , "0x34" , "$(intidly)",  "uS", "IRQ Delay"         }
+          { "INTIDLY"    , "0x34" , "\$(intidly=570)",  "uS", "IRQ Delay"    }
           { "TSZDPRSC"   , "0x38" ,    "80" , ""       , "TS0 Delay Presc"   }
-          { "TSZDDLY"    , "0x3a" , "$(tszddly)",  "uS", "TS0 Delay"         }
+          { "TSZDDLY"    , "0x3a" , "\$(tszddly=0)",  "uS", "TS0 Delay"      }
           { "TSZOWPRSC"  , "0x3c" ,     "4" , ""       , "TS0 Width Presc"   }
           { "TSZOWID"    , "0x3e" , "35200" , ""       , "TS0 Width"         }
           { "ADCFLT"     , "0x80" , "00000" , ""       , "ADC Limit Faults"  }
