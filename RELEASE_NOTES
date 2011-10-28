@@ -1,3 +1,4 @@
+2011/10/28: First 'stable' release VMTG-R1-0-0 released.
  - we need a reasonably recent epics base version (devAllocAddr doesn't deliver
    requested alignment under 3.14.8.2; 3.14.12 works but it is possible that
    an intermediate version is good, too).
