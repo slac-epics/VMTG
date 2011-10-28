@@ -55,11 +55,14 @@ file VMTGStatusBit.template {
 	      { "CSR2_ETR"   , "0x04" , "vmtgCSR2Lo" , "0x0020", "Present"     ,"Missing"          , "0"  , "Master Trig Miss"  }
 	      { "CSR2_FTR"   , "0x04" , "vmtgCSR2Lo" , "0x0040", "Normal"      ,"Generated"        , "0"  , "Failsafe Trig"     }
 	      { "CSR2_RFO"   , "0x04" , "vmtgCSR2Lo" , "0x0080", "Normal"      ,"Missing"          , "0"  , "476Mhz Input Stat" }
-# DCL, DPO, DNS are non-latching - leave bit-clear records there but they have no effect
-	      { "CSR2_DCL"   , "0x04" , "vmtgCSR2Hi" , "0x0100", "Locked"      ,"Not Locked"       , "0"  , "DCM Lock Stat"     }
-	      { "CSR2_DPO"   , "0x04" , "vmtgCSR2Hi" , "0x0200", "Normal"      ,"Limit Reached"    , "0"  , "DCM PShft Stat"    }
-	      { "CSR2_DNS"   , "0x04" , "vmtgCSR2Hi" , "0x0400", "Normal"      ,"Missing"          , "0"  , "DCM Stat"          }
           { "ADCFLT_SUM" , "0x80" , "be16"       , "0xffff", "Normal"      ,"ADC Fault"        , "0"  , "ADC Flt Summary"   }
+}
+
+file VMTGbi.template {
+  pattern { field        , off    ,  mask    , znam          , onam              , desc                }
+	      { "CSR2_DCL"   , "0x04" ,  "0x0100", "Locked"      ,"Not Locked"       , "DCM Lock Stat"     }
+	      { "CSR2_DPO"   , "0x04" ,  "0x0200", "Normal"      ,"Limit Reached"    , "DCM PShft Stat"    }
+	      { "CSR2_DNS"   , "0x04" ,  "0x0400", "Normal"      ,"Missing"          , "DCM Stat"          }
 }
 
 file VMTGli.template {

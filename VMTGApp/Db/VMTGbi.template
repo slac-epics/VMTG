@@ -1,0 +1,12 @@
+record(bi, "$(prefix):$(field)")
+{
+	field(DESC, "$(desc)")
+	field(DTYP, "BusAddress")
+	field(INP,  "#C0S0@VMTG0+$(off),be16")
+	field(ZNAM, "$(znam)")
+	field(ZSV,  "NO_ALARM")
+	field(ONAM, "$(onam)")
+	field(OSV,  "MAJOR")
+	field(MASK, "$(mask)")
+	field(SCAN, "1 second")
+}
