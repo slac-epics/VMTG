@@ -1,4 +1,4 @@
-/* $Id: drvVMTG.c,v 1.8 2011/06/01 18:49:49 strauman Exp $ */
+/* $Id: drvVMTG.c,v 1.9 2011/06/07 16:56:45 strauman Exp $ */
 
 /* VMTG driver */
 
@@ -9,6 +9,7 @@
 #include <drvSup.h>
 #include <devBusMapped.h>
 #include <errlog.h>
+#include <cantProceed.h>
 #include <inttypes.h>
 #include <time.h>
 
@@ -45,11 +46,12 @@ VME64_Addr     vmtgCSRB = (VME64_Addr)0;
 volatile void *vmtgBase = (volatile void*)0;
 
 static int
-vmtg32Rd(DevBusMappedPvt pvt, epicsUInt32 *pvalue, dbCommon *prec)
+vmtg32Rd(DevBusMappedPvt pvt, epicsUInt32 *pvalue, int idx, dbCommon *prec)
 {
+	idx    <<= 1;
 	*pvalue  = 0;
- 	*pvalue |= (in_be16( pvt->addr + R32_HI_OFF ) << 16);
-	*pvalue |= (in_be16( pvt->addr + R32_LO_OFF ) & 0xffff);
+ 	*pvalue |= (in_be16( pvt->addr + idx + R32_HI_OFF ) << 16);
+	*pvalue |= (in_be16( pvt->addr + idx + R32_LO_OFF ) & 0xffff);
 	return 0;
 }
 
@@ -59,19 +61,23 @@ static DevBusMappedAccessRec vmtg32IO = {
 };
 
 static int
-vmtgCSR2Rd(DevBusMappedPvt pvt, epicsUInt32 *pvalue, dbCommon *prec)
+vmtgCSR2Rd(DevBusMappedPvt pvt, epicsUInt32 *pvalue, int idx, dbCommon *prec)
 {
+	if ( idx != 0 )
+		cantProceed("Programming error - vmtgCSR2Rd can not be used with an idx != 0\n");
 	*pvalue = in_be16( pvt->addr );
 	return 0;
 }
 
 static int
-vmtgCSR2WrLo(DevBusMappedPvt pvt, epicsUInt32 value, dbCommon *prec)
+vmtgCSR2WrLo(DevBusMappedPvt pvt, epicsUInt32 value, int idx, dbCommon *prec)
 {
 epicsUInt16 oval;
 	/* When writing low bits (write-1-to-clear) then we don't want to
 	 * touch the high bits.
 	 */
+	if ( idx != 0 )
+		cantProceed("Programming error - vmtgCSR2WrLo can not be used with an idx != 0\n");
 	oval  = in_be16( pvt->addr );
 	oval  = (oval & 0xff00) | ( value & 0xff);
 	out_be16( pvt->addr, oval );
@@ -79,8 +85,10 @@ epicsUInt16 oval;
 }
 
 static int
-vmtgCSR2WrHi(DevBusMappedPvt pvt, epicsUInt32 value, dbCommon *prec)
+vmtgCSR2WrHi(DevBusMappedPvt pvt, epicsUInt32 value, int idx, dbCommon *prec)
 {
+	if ( idx != 0 )
+		cantProceed("Programming error - vmtgCSR2WrHi can not be used with an idx != 0\n");
 	/* When writing hi bits ('normal' bits) then we don't want to
 	 * set any of the low bits.
 	 */
