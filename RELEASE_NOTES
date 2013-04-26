@@ -1,3 +1,12 @@
+VMTG-R1-1-0 (T. Straumann, 2013/04/26): Bugfix release 
+
+ - fixed typo; the outlinks in the F02 and F03 fanouts should be
+   to ADC_Cx_LO, ADC_Cy_HI (not ADC_CHx_LO/HI). Thanks to Stephanie
+   Allison for catching this.
+
+ - devBusMapped-R3-1-0 has changed API for I/O methods. Need
+   to adapt!
+
 VMTG-R1-0-1: Use a newer devBusMapped: devBusMapped-R3-1-0
 
 
