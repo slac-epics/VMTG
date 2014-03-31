@@ -109,6 +109,7 @@ file VMTGlirw.template {
           { "TSZOWPRSC"  , "0x3c" ,     "4" , ""       , "TS0 Width Presc"   }
           { "TSZOWID"    , "0x3e" , "35200" , ""       , "TS0 Width"         }
           { "ADCFLT"     , "0x80" , "00000" , ""       , "ADC Limit Faults"  }
+          { "CLKRESYNC"  , "0x92" ,"0xffff" , ""       , "Clock ReSynchronize"}
 }
 
 file VMTGAdcOff.template {

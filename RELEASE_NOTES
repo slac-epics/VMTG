@@ -1,3 +1,6 @@
+VMTG-R1-2-0 (K. Kim, 2014/03/31):
+ - Add clock re-synchronize register in the VMTG register
+
 VMTG-R1-1-1 (S. Allison, 2013/05/10): Use R3-14-12. 
 
 VMTG-R1-1-0 (T. Straumann, 2013/04/26): Bugfix release 
