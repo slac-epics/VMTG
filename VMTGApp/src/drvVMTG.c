@@ -1,4 +1,4 @@
-/* $Id: drvVMTG.c,v 1.9 2011/06/07 16:56:45 strauman Exp $ */
+/* $Id: drvVMTG.c,v 1.10 2013/04/26 18:34:54 strauman Exp $ */
 
 /* VMTG driver */
 
@@ -44,6 +44,8 @@ unsigned       vmtgVect = 0;
 int            vmtgSlot = 0;
 VME64_Addr     vmtgCSRB = (VME64_Addr)0;
 volatile void *vmtgBase = (volatile void*)0;
+
+static volatile int theVmtgFlag =HAVE_VMTG;
 
 static int
 vmtg32Rd(DevBusMappedPvt pvt, epicsUInt32 *pvalue, int idx, dbCommon *prec)
@@ -256,7 +258,7 @@ uint32_t  vme_24_bus;
 long      rval = -1;
 uint32_t  adem;
 int       lsb;
-
+if (HAVE_VMTG==theVmtgFlag){ 
 	/* Look-up CPU address of VME CSR space */
 	if ( devBusToLocalAddr( atVMECSR, 0, &vme_csr_base) ) {
 		epicsPrintf("vmtgInit FAILED: Unable to find VME CSR space of this board; cannot initialize VMTG driver\n");
@@ -327,7 +329,7 @@ int       lsb;
 	}
 
 	vme64_out08( vmtgCSRB, VME64_CSR_OFF_BSET, VME64_CSR_BIT_MODENBL );
-	
+}/*end ifvmtg_flag*/
 	rval     = 0;
 
 bail:
@@ -343,3 +345,20 @@ static drvet drvVMTG = {
 };
 
 epicsExportAddress( drvet, drvVMTG );
+
+/*Set Method for the theVmtgFlag used by the ioc */
+void
+setVmtg_flag(int flag){
+        if ((flag==0) || (flag==1)){
+                theVmtgFlag=flag;
+        }
+        else{ /*The expectation is that is called only once at startup */
+                printf("setVmtg_flag: illegal value %i for VMTG flag. Value must be 0 or 1.",flag);
+        }
+}
+/*Get Method for the theVmtgFlag used by the ioc */
+int
+getVmtg_flag(void){
+        return   theVmtgFlag;
+}
+

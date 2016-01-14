@@ -1,3 +1,6 @@
+VMTG-R1-2-1  (C. Bianchini, 2016/01/13)
+ - Add VMTG flag to identify module's presents, it is used by Mpg app.
+
 VMTG-R1-2-0 (K. Kim, 2014/03/31):
  - Add clock re-synchronize register in the VMTG register
 

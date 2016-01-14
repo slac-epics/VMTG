@@ -1,6 +1,6 @@
 #ifndef DRV_VMTG_H
 #define DRV_VMTG_H
-/* $Id$ */
+/* $Id: drvVMTG.h,v 1.1 2011/06/01 17:10:06 strauman Exp $ */
 
 /* VMTG Driver public interface */
 
@@ -80,3 +80,13 @@ vmtgGetTSMod3(void);
 #endif
 
 #endif
+
+#define HAVE_VMTG 1
+
+#define NO_VMTG 0
+
+
+int
+
+getVmtg_flag(void);
+
