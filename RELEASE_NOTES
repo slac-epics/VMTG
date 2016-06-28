@@ -1,3 +1,6 @@
+VMTG-R1-2-2  (S. Allison, 2016/06/27)
+ - Upgrade to devBusMapped-R3-1-1 and miscUtils-R2-2-3.
+
 VMTG-R1-2-1  (C. Bianchini, 2016/01/13)
  - Add VMTG flag to identify module's presents, it is used by Mpg app.
 
