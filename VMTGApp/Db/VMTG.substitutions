@@ -73,14 +73,6 @@ file VMTGli.template {
           { "BDVER"      , "0x1c" , ""       , "be16"     ,"Board/GW Version"  }
           { "SMCTL"      , "0x22" , ""       , "be16"     ,"SigMon Ctrl"       }
           { "TSCNT"      , "0x36" , ""       , "be16"     ,"TS Counters"       }
-	  { "ERCPER"     , "0xA2" , ""       , "be32"     ,"Ext Resync Clock"  }
-	  { "AC3PPER"    , "0xA6" , ""       , "be32"     ,"AC 3Phase signal In"}
-	  { "FTIPER"     , "0xAA" , ""       , "be32"	  ,"FIDO Trig IN"      }
-	  { "TSOiPER"	 , "0xAE" , ""       , "be32"     ,"TS0 Marker Main In"}
-	  { "ATS0iPER"   , "0xB2" , ""       , "be32"     ,"Alternate TSO Marker In"}
-	  { "RCKPER"	 , "0xB6" , ""       , "be32"     ,"Prog. resync Clock"}
-	  { "SyncPER"    , "0xBA" , ""       , "be32"     ,"Internal 8.5MHz Resync Clk"}
-          { "SyncPER"    , "0xBC" , ""       , "be32"     ,"Synchronization Clk"}
 }
 
 
@@ -89,6 +81,9 @@ file VMTGPerFrq.template {
           { "MT"         , "0x40" , "0"     , "1000"  , "0"     , "0"     , "0"     , "0"     , "NO_ALARM" , "NO_ALARM" , "NO_ALARM" , "NO_ALARM" , "Mstr Trig"     }
           { "IIS"        , "0x44" , "0"     , "1000"  , "0"     , "0"     , "0"     , "0"     , "NO_ALARM" , "NO_ALARM" , "NO_ALARM" , "NO_ALARM" , "Intr Src"      }
           { "TSZ"        , "0x48" , "0"     , "1000"  , "0"     , "0"     , "0"     , "0"     , "NO_ALARM" , "NO_ALARM" , "NO_ALARM" , "NO_ALARM" , "TS0"           }
+   	  { "SyncPER_H"    , "0xBA" , "0"     , "1000"  , "0"     , "0"     , "0"     , "0"     , "NO_ALARM" , "NO_ALARM" , "NO_ALARM" , "NO_ALARM" , "Internal 8.5MHz Resync Clk"}
+          { "SyncPER_L"    , "0xBC" , "0"     , "1000"  , "0"     , "0"     , "0"     , "0"     , "NO_ALARM" , "NO_ALARM" , "NO_ALARM" , "NO_ALARM" , "Synchronization Clk"}
+
 }
 
 file VMTGlirw.template {
