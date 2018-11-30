@@ -35,15 +35,13 @@ file VMTGOM.template {
           { "$(prefix)" }
 }
 
-#file VMTGmbbo.template {
-#  pattern { field        , off    , shft    , nobt , zrst            , onst            , twst            , thst            , frst            , fvst            , sxst            , svst            , desc              }
-#          { "CSR0_MT_S"  , "0x00" , "4"     , "2"  , "Seq_Genr"      , "PLL_Trig"      , "Aux_Trig"      , "Agnd"          , ""              , ""              , ""              , ""              , "Master Trig Src" }
-#
-#          { "CSR1_ADM"   , "0x02" , "2"     , "2"  , "Continuous"    , "Mono_All_Chan" , "Mono_Sel_Chan" , ""              , ""              , ""              , ""              , ""              , "ADC Opmode"      }
-#
-#		
-#          { "CSR2_IMOD"  , "0x04" , "12"    , "2"  , "Level"         , "Latch Raising" , "Latch Falling" , "Latch Both"    , ""              , ""              , ""              , ""              , "GPIO Inp Mode"   }
-#}
+file VMTGmbbo.template {
+  pattern { field        , off    , shft    , nobt , zrst            , onst            , twst            , thst            , frst            , fvst            , sxst            , svst            , desc              }
+#          { "CSR0_MT_S"  , "0x00" , "4"     , "2"  , "Seq_Genr"      , "PLL_Trig"      , "Aux_Trig"      , "Agnd"          , ""    , ""              , ""              , ""              , "Master Trig Src" }
+#          { "CSR1_ADM"   , "0x02" , "2"     , "2"  , "Continuous"    , "Mono_All_Chan" , "Mono_Sel_Chan" , ""              , ""    , ""              , ""              , ""              , "ADC Opmode"      }
+#          { "CSR2_IMOD"  , "0x04" , "12"    , "2"  , "Level"         , "Latch Raising" , "Latch Falling" , "Latch Both"    , ""     , ""              , ""              , ""              , "GPIO Inp Mode"  }
+	   { "RCLKSEL_ECSL"  , "0x96" , "12"    , "2"  , "Level"         , "Internal div Resync Clk" , "Ext Resync Clk src" , "Ext Resync Clk w 119MHz Clk"    , ""     , ""              , ""              , ""              , "Ext Resync Clk Sel"  }
+}
 
 file VMTGStatusBit.template {
   pattern { field        , off    , boio         , mask    , znam          , onam              , high , desc                }
@@ -55,7 +53,9 @@ file VMTGStatusBit.template {
 	      { "CSR2_ETR"   , "0x04" , "vmtgCSR2Lo" , "0x0020", "Present"     ,"Missing"          , "0"  , "Master Trig Miss"  }
 	      { "CSR2_FTR"   , "0x04" , "vmtgCSR2Lo" , "0x0040", "Normal"      ,"Generated"        , "0"  , "Failsafe Trig"     }
 	      { "CSR2_RFO"   , "0x04" , "vmtgCSR2Lo" , "0x0080", "Normal"      ,"Missing"          , "0"  , "476Mhz Input Stat" }
-          { "ADCFLT_SUM" , "0x80" , "be16"       , "0xffff", "Normal"      ,"ADC Fault"        , "0"  , "ADC Flt Summary"   }
+              { "ADCFLT_SUM" , "0x80" , "be16"       , "0xffff", "Normal"      ,"ADC Fault"        , "0"  , "ADC Flt Summary"   }
+	      { "RCLKSEL_GCSL","0x96" , "vmtgCSR2Lo" , "0x0001", "Int 8.5MHz Clk Sel", "Out ECSL mux Sel", "0" , "Global Resync Clk Sel"}
+	      { "RCLKSEL_CDCS","0x96" , "vmtgCSR2Lo" , "0x0100", "Int default param", "custom param", "0" , "VMTG Trig Cnt Logic Decode Param Sel"} 
 }
 
 file VMTGbi.template {
@@ -73,7 +73,16 @@ file VMTGli.template {
           { "BDVER"      , "0x1c" , ""       , "be16"     ,"Board/GW Version"  }
           { "SMCTL"      , "0x22" , ""       , "be16"     ,"SigMon Ctrl"       }
           { "TSCNT"      , "0x36" , ""       , "be16"     ,"TS Counters"       }
+	  { "ERCPER"     , "0xA2" , ""       , "be32"     ,"Ext Resync Clock"  }
+	  { "AC3PPER"    , "0xA6" , ""       , "be32"     ,"AC 3Phase signal In"}
+	  { "FTIPER"     , "0xAA" , ""       , "be32"	  ,"FIDO Trig IN"      }
+	  { "TSOiPER"	 , "0xAE" , ""       , "be32"     ,"TS0 Marker Main In"}
+	  { "ATS0iPER"   , "0xB2" , ""       , "be32"     ,"Alternate TSO Marker In"}
+	  { "RCKPER"	 , "0xB6" , ""       , "be32"     ,"Prog. resync Clock"}
+	  { "SyncPER"    , "0xBA" , ""       , "be32"     ,"Internal 8.5MHz Resync Clk"}
+          { "SyncPER"    , "0xBC" , ""       , "be32"     ,"Synchronization Clk"}
 }
+
 
 file VMTGPerFrq.template {
   pattern { field        , off    , lopr    , hopr    , lolo    , low     , high    , hihi    , llsv       , lsv        , hsv        , hhsv       , desc            }

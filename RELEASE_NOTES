@@ -1,3 +1,27 @@
+VMTG-R1-3-0  (C. Bianchini, 2018/11/29)
+ - Added new fields to VMTG.substitutions
+  Changes for 0x00A2- 0x00BA:
+  file VMTGli.template {
+    pattern { field        , off    , egu      , io         ,desc                }
+          { "ERCPER"     , "0xA2" , ""       , "be32"     ,"Ext Resync Clock"  }
+          { "AC3PPER"    , "0xA6" , ""       , "be32"     ,"AC 3Phase signal In"}
+          { "FTIPER"     , "0xAA" , ""       , "be32"     ,"FIDO Trig IN"      }
+          { "TSOiPER"    , "0xAE" , ""       , "be32"     ,"TS0 Marker Main In"}
+          { "ATS0iPER"   , "0xB2" , ""       , "be32"     ,"Alternate TSO Marker In"}
+          { "RCKPER"     , "0xB6" , ""       , "be32"     ,"Prog. resync Clock"}
+          {" SyincPER"     , "0xBA" , ""       , "be32"     ,"Internal 8.5MHz Resync Clk"}
+  }
+
+  Changes for 0x0096:
+  file VMTGStatusBit.template {
+    pattern { field        , off    , boio         , mask    , znam          , onam              , high , desc                }
+              { "RCLKSEL_GCSL","0x96" , "vmtgCSR2Lo" , "0x0001", "Int 8.5MHz Clk Sel", "Out ECSL mux Sel", "0" , "Global Resync Clk Sel"}
+              { "RCLKSEL_CDCS","0x96" , "vmtgCSR2Lo" , "0x0100", "Int default param", "custom param", "0" , "VMTG Trig Cnt Logic Decode Param Sel"}
+  And: (uncommented out and used the following template)
+  file VMTGmbbo.template {
+    pattern { field        , off    , shft    , nobt , zrst            , onst            , twst            , thst            , frst            , fvst            , sxst            , svst            , desc    
+           { "RCLKSEL_ECSL"  , "0x96" , "12"    , "2"  , "Level"         , "Internal div Resync Clk" , "Ext Resync Clk src" , "Ext Resync Clk w 119MHz Clk"    , ""     , ""              , ""              , ""              , "Ext Resync Clk Sel"  }
+
 VMTG-R1-2-2  (S. Allison, 2016/06/27)
  - Upgrade to devBusMapped-R3-1-1 and miscUtils-R2-2-3.
 
