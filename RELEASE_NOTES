@@ -3,9 +3,7 @@ VMTG-R1-3-0  (C. Bianchini, 2018/11/29)
   Changes for 0x00A2- 0x00BA:
   file VMTGPerFrq.template {
     pattern { field        , off    , lopr    , hopr    , lolo    , low     , high    , hihi    , llsv       , lsv        , hsv        , hhsv       , desc            }
-          { "SyncPER_H"    , "0xBA" , "0"     , "1000"  , "0"     , "0"     , "0"     , "0"     , "NO_ALARM" , "NO_ALARM" , "NO_ALARM" , "NO_ALARM" , "Internal 8.5MHz Resync Clk"}
-          { "SyncPER_L"    , "0xBC" , "0"     , "1000"  , "0"     , "0"     , "0"     , "0"     , "NO_ALARM" , "NO_ALARM" , "NO_ALARM" , "NO_ALARM" , "Synchronization Clk"}
-
+          { "SyncPER"    , "0xBA" , "0"     , "1000"  , "0"     , "0"     , "0"     , "0"     , "NO_ALARM" , "NO_ALARM" , "NO_ALARM" , "NO_ALARM" , "Internal 8.5MHz Resync Clk"}
   }
 
   Changes for 0x0096:

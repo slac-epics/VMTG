@@ -81,9 +81,7 @@ file VMTGPerFrq.template {
           { "MT"         , "0x40" , "0"     , "1000"  , "0"     , "0"     , "0"     , "0"     , "NO_ALARM" , "NO_ALARM" , "NO_ALARM" , "NO_ALARM" , "Mstr Trig"     }
           { "IIS"        , "0x44" , "0"     , "1000"  , "0"     , "0"     , "0"     , "0"     , "NO_ALARM" , "NO_ALARM" , "NO_ALARM" , "NO_ALARM" , "Intr Src"      }
           { "TSZ"        , "0x48" , "0"     , "1000"  , "0"     , "0"     , "0"     , "0"     , "NO_ALARM" , "NO_ALARM" , "NO_ALARM" , "NO_ALARM" , "TS0"           }
-   	  { "SyncPER_H"    , "0xBA" , "0"     , "1000"  , "0"     , "0"     , "0"     , "0"     , "NO_ALARM" , "NO_ALARM" , "NO_ALARM" , "NO_ALARM" , "Internal 8.5MHz Resync Clk"}
-          { "SyncPER_L"    , "0xBC" , "0"     , "1000"  , "0"     , "0"     , "0"     , "0"     , "NO_ALARM" , "NO_ALARM" , "NO_ALARM" , "NO_ALARM" , "Synchronization Clk"}
-
+   	  { "Sync"    , "0xBA" , "0"     , "1000"  , "0"     , "0"     , "0"     , "0"     , "NO_ALARM" , "NO_ALARM" , "NO_ALARM" , "NO_ALARM" , "Internal 8.5MHz Resync Clk"}
 }
 
 file VMTGlirw.template {
