@@ -54,7 +54,7 @@ file VMTGStatusBit.template {
 	      { "CSR2_FTR"   , "0x04" , "vmtgCSR2Lo" , "0x0040", "Normal"      ,"Generated"        , "0"  , "Failsafe Trig"     }
 	      { "CSR2_RFO"   , "0x04" , "vmtgCSR2Lo" , "0x0080", "Normal"      ,"Missing"          , "0"  , "476Mhz Input Stat" }
               { "ADCFLT_SUM" , "0x80" , "be16"       , "0xffff", "Normal"      ,"ADC Fault"        , "0"  , "ADC Flt Summary"   }
-	      { "RCLKSEL_GCSL","0x96" , "vmtgCSR2Lo" , "0x0001", "Int 8.5MHz Clk Sel", "Out ECSL mux Sel", "0" , "Global Resync Clk Sel"}
+	      { "RCLKSEL_GCSL","0x96" , "vmtgCSR2Lo" , "0x0001", " 8.5MHz "    , " 71.43KHz "      , "0" , "Global Resync Clk Sel"}
 	      { "RCLKSEL_CDCS","0x96" , "vmtgCSR2Lo" , "0x0100", "Int default param", "custom param", "0" , "VMTG Trig Cnt Logic Decode Param Sel"} 
 }
 
