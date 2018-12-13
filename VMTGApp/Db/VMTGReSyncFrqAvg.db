@@ -5,7 +5,7 @@ record(compress, "$(prefix):SyncPERBUFF") {
   field(DESC, "Buffer for difference values")
   field(INP, "$(prefix):SyncPER")
   field(ALG, "Circular Buffer")
-  field(NSAM, "10")
+  field(NSAM, "5")
   field(SCAN, "Passive")
   field(FLNK, "$(prefix):SyncPERAVG")
 }
@@ -16,7 +16,7 @@ record(compress, "$(prefix):SyncPERAVG") {
   field(DESC, "Sync Freq Avg of 10 counts")
   field(ALG, "N to 1 Average")
   field(INP, "$(prefix):SyncPERBUFF.VAL")
-  field(N, "10")
+  field(N, "5")
   field(SCAN, "Passive")
 }
 
