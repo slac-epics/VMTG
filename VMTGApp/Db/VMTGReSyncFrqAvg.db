@@ -1,21 +1,21 @@
 # Stores difference between state and setpoint
 # NSAM is the sample size of the buffer for calculating the moving average
 # VAL is an array
-record(compress, "$(prefix):SyncPERBUFF") {
+record(compress, "$(prefix):SyncFRQBUFF") {
   field(DESC, "Buffer for difference values")
-  field(INP, "$(prefix):SyncPER")
+  field(INP, "$(prefix):SyncFRQ")
   field(ALG, "Circular Buffer")
   field(NSAM, "5")
   field(SCAN, "Passive")
-  field(FLNK, "$(prefix):SyncPERAVG")
+  field(FLNK, "$(prefix):SyncFRQAVG")
 }
 
 # Computes the avg of array input
 # N should equal NSAM to compress to one average value
-record(compress, "$(prefix):SyncPERAVG") {
-  field(DESC, "Sync Freq Avg of 10 counts")
+record(compress, "$(prefix):SyncFRQAVG") {
+  field(DESC, "Sync Freq Avg of 5 counts")
   field(ALG, "N to 1 Average")
-  field(INP, "$(prefix):SyncPERBUFF.VAL")
+  field(INP, "$(prefix):SyncFRQBUFF.VAL")
   field(N, "5")
   field(SCAN, "Passive")
 }
