@@ -1,6 +1,6 @@
 VMTG-R1-3-1  (C. Bianchni,  2018/12/12)
  - Added VMTGReSyncFrqAvg.db to calculate average sync frequency every 10 counts.
-
+ - Added CALC record to move Hz to MHz in VMTGApp/Db/VMTGReSyncFrqAvg.db .
 
 VMTG-R1-3-0  (C. Bianchini, 2018/11/29)
  - Added new fields to VMTG.substitutions

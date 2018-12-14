@@ -5,18 +5,38 @@ record(compress, "$(prefix):SyncFRQBUFF") {
   field(DESC, "Buffer for difference values")
   field(INP, "$(prefix):SyncFRQ")
   field(ALG, "Circular Buffer")
-  field(NSAM, "5")
-  field(SCAN, "Passive")
+  field(NSAM, "10")
+  field(SCAN, "1 second")
   field(FLNK, "$(prefix):SyncFRQAVG")
 }
 
 # Computes the avg of array input
 # N should equal NSAM to compress to one average value
 record(compress, "$(prefix):SyncFRQAVG") {
-  field(DESC, "Sync Freq Avg of 5 counts")
+  field(DESC, "Sync Freq Avg of 10 counts")
   field(ALG, "N to 1 Average")
   field(INP, "$(prefix):SyncFRQBUFF.VAL")
-  field(N, "5")
+  field(N, "10")
   field(SCAN, "Passive")
+#  field(FLNK, "$(prefix):SyncFRQCLC") 
+}
+record(calcout, "$(prefix):SyncFRQCLC") {
+  field(DESC, "Sync Freq Avg of 5 counts in MHz")
+  field(PREC, "2")
+  field(EGU,  "MHz")
+  field(SCAN, "1 second")
+  field(INPA, "$(prefix):SyncFRQAVG PP MS")
+  field(CALC, "(A*0.000001)")
+  field(OUT, "$(prefix):SyncFRQMHZ")	
+}
+
+record(ai, "$(prefix):SyncFRQMHZ"){
+  field(DESC, "Sync Freq in MHz")
+  field(SCAN, "1 second")
+  field(EGU,  "MHz")
+  field(DTYP, "Soft Channel")
+  field(INP, "$(prefix):SyncFRQCLC")
+  field(PINI, "YES")
+  field(PREC, "2")
 }
 
