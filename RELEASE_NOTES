@@ -1,4 +1,9 @@
-VMTG-R1-3-1  (C. Bianchni,  2018/12/12)
+VMTG-R1-4-0  (C. Bianchini,  2019/11/04) 
+ - Compiled with Autosave
+ - Added save macro field to VMTGlirw.template, VMTGPerFrq.template, VMTGbo.template, VMTGAdcAi.template, VMTGAdcAo.template
+   and resolved in VMTG.substitutions
+
+VMTG-R1-3-1  (C. Bianchini,  2018/12/12)
  - Added VMTGReSyncFrqAvg.db to calculate average sync frequency every 10 counts.
  - Added CALC record to move Hz to MHz in VMTGApp/Db/VMTGReSyncFrqAvg.db .
 
