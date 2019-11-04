@@ -20,4 +20,5 @@ record(ai, "$(prefix):$(field)") {
 	field(ESLO, "$(eslo)")
 	field(EOFF, "$(eoff)")
 	field(FLNK, "$(flnk)")
+	info(autosaveFields, "$(save)")
 }

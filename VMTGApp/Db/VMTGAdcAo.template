@@ -25,4 +25,5 @@ record(ao, "$(prefix):$(field)_DES") {
 	field(EOFF, "$(eoff)")
 	field(PINI, "YES")
 #	field(FLNK, "$(flnk)")
+        info(autosaveFields, "$(save)")
 }

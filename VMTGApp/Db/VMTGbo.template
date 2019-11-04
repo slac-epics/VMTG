@@ -9,4 +9,5 @@ record(bo, "$(prefix):$(field)")
 	field(HIGH, "$(high)")
 	field(DOL,  "$(dol)" )
 	field(PINI, "$(pini)")
+	info(autosaveFields, "$(save)")
 }

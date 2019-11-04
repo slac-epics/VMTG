@@ -15,6 +15,7 @@ record(calc, "$(prefix):$(field)FRQ") {
 	field(LLSV, "$(llsv)")
 	field(HSV,  "$(hsv)")
 	field(LSV,  "$(lsv)")
+        info(autosaveFields, "$(save)")
 }
 
 record(longin, "$(prefix):$(field)PER") {

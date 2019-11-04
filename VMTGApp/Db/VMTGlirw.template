@@ -10,6 +10,7 @@ record(longout, "$(prefix):$(field)_DES")
 	field(HOPR, "65535")
 	field(EGU,  "$(egu)")
 	field(PINI, "YES")
+        info(autosaveFields, "$(save)")
 }
 
 substitute "io=be16"
