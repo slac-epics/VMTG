@@ -1,3 +1,6 @@
+R2.0.1:      (Kukhee Kim, 2021/01/11)
+  - add vmtgConfigure() command to allow to initialize driver explicitly with manual order 
+
 R2.0.0:      (E. Williams, 2020-Oct-01)
              This module was converted to GIT and migrated to EPICS 7.
              EPICS 7 is a major release of EPICS.  However, there is no functional

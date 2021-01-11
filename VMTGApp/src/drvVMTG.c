@@ -184,7 +184,8 @@ long     rval;
 		out_be16( vmtgBase + REG_INTVEC, v );
 	}
 	
-	return rval;
+	return rval; 
+
 }
 
 static uint32_t nsdiff(uint32_t b, uint32_t e)
@@ -253,11 +254,16 @@ vmtgReport(int interest_level)
 static long
 vmtgInit(void)
 {
+static   uint32_t already = 0;
 volatile void *vme_csr_base, *vme_24_base, *tmp;
 uint32_t  vme_24_bus;
 long      rval = -1;
 uint32_t  adem;
 int       lsb;
+
+if(already) return 0;          /*  it has been intialized */
+else        already = 1;       /*  it needs to be processed */
+
 if (HAVE_VMTG==theVmtgFlag){ 
 	/* Look-up CPU address of VME CSR space */
 	if ( devBusToLocalAddr( atVMECSR, 0, &vme_csr_base) ) {
@@ -335,6 +341,20 @@ if (HAVE_VMTG==theVmtgFlag){
 bail:
 
 	return rval;
+}
+
+
+long vmtgConfigure(void)
+{
+    static uint32_t already  = 0;
+
+    if(already) {
+        printf("The vmtgInit() has been called already\n");
+        return -1;
+    }
+
+    already = 1;
+    return vmtgInit();
 }
 
 
